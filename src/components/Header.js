@@ -1,13 +1,15 @@
 import React, { useState, useRef, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../App';
+import { auth } from '../firebase';
+import { signOut } from 'firebase/auth';
 import './Header.css';
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const mobileNavRef = useRef(null);
   const overlayRef = useRef(null);
-  const { isAuthenticated, logout, user } = useContext(AuthContext);
+  const { isAuthenticated, setIsAuthenticated, user, setUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const toggleMobileMenu = () => {
@@ -18,10 +20,17 @@ const Header = () => {
     setIsMobileMenuOpen(false);
   };
 
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-    closeMobileMenu();
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      setIsAuthenticated(false);
+      setUser(null);
+      localStorage.removeItem('user');
+      navigate('/auth');
+      closeMobileMenu();
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
   };
 
   React.useEffect(() => {
@@ -70,15 +79,14 @@ const Header = () => {
             <Link to="/contact" className="nav-link">Contact</Link>
             {isAuthenticated ? (
               <>
-                <span className="user-name">Welcome, {user?.username}</span>
+                <Link to="/profile" className="nav-link">Profile</Link>
                 <button onClick={handleLogout} className="nav-link logout-btn">Logout</button>
               </>
             ) : (
-              <Link to="/login" className="nav-link">Login</Link>
+              <Link to="/auth" className="nav-link">Login</Link>
             )}
           </div>
 
-          {/* Hamburger Menu Button */}
           <div className="hamburger-menu">
             <button
               className={`hamburger-btn ${isMobileMenuOpen ? 'active' : ''}`}
@@ -92,7 +100,6 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Mobile Navigation Menu */}
         <div className={`mobile-nav ${isMobileMenuOpen ? 'active' : ''}`} ref={mobileNavRef}>
           <div className="mobile-menu">
             <div className="mobile-nav-header">
@@ -105,18 +112,17 @@ const Header = () => {
               <Link to="/contact" className="mobile-nav-link" onClick={closeMobileMenu}>Contact</Link>
               {isAuthenticated ? (
                 <>
-                  <span className="user-name">Welcome, {user?.username}</span>
+                  <Link to="/profile" className="mobile-nav-link" onClick={closeMobileMenu}>Profile</Link>
                   <button onClick={handleLogout} className="mobile-nav-link logout-btn">Logout</button>
                 </>
               ) : (
-                <Link to="/login" className="mobile-nav-link" onClick={closeMobileMenu}>Login</Link>
+                <Link to="/auth" className="mobile-nav-link" onClick={closeMobileMenu}>Login</Link>
               )}
             </nav>
           </div>
         </div>
       </nav>
 
-      {/* Add overlay */}
       <div
         ref={overlayRef}
         className={`mobile-nav-overlay ${isMobileMenuOpen ? 'active' : ''}`}

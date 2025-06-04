@@ -9,7 +9,8 @@ import ServiceProviders from './pages/ServiceProviders';
 import ProviderProfile from './pages/ProviderProfile';
 import Contact from './pages/Contact';
 import About from './pages/About';
-import Login from './pages/Login';
+import Auth from './pages/Auth';
+import CustomerProfile from './pages/CustomerProfile';
 import './App.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
@@ -20,18 +21,7 @@ const ProtectedRoute = ({ children }) => {
   const location = useLocation();
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
-  }
-
-  return children;
-};
-
-const PublicRoute = ({ children }) => {
-  const { isAuthenticated } = useContext(AuthContext);
-  const location = useLocation();
-
-  if (isAuthenticated) {
-    return <Navigate to={location.state?.from?.pathname || '/'} replace />;
+    return <Navigate to="/auth" state={{ from: location }} replace />;
   }
 
   return children;
@@ -51,30 +41,11 @@ function App() {
     setLoading(false);
   }, []);
 
-  const login = (username, password) => {
-    if (username === 'AliHK' && password === 'password') {
-      const userData = { username };
-      setIsAuthenticated(true);
-      setUser(userData);
-      localStorage.setItem('user', JSON.stringify(userData));
-      return true;
-    }
-    return false;
-  };
-
-  const logout = () => {
-    setIsAuthenticated(false);
-    setUser(null);
-    localStorage.removeItem('user');
-  };
-
   const authContextValue = {
     isAuthenticated,
     setIsAuthenticated,
     user,
-    setUser,
-    login,
-    logout
+    setUser
   };
 
   if (loading) {
@@ -88,11 +59,7 @@ function App() {
           <Header />
           <main className="main-content">
             <Routes>
-              <Route path="/login" element={
-                <PublicRoute>
-                  <Login />
-                </PublicRoute>
-              } />
+              <Route path="/auth" element={<Auth />} />
               <Route path="/" element={
                 <ProtectedRoute>
                   <Home />
@@ -121,6 +88,11 @@ function App() {
               <Route path="/about" element={
                 <ProtectedRoute>
                   <About />
+                </ProtectedRoute>
+              } />
+              <Route path="/profile" element={
+                <ProtectedRoute>
+                  <CustomerProfile />
                 </ProtectedRoute>
               } />
             </Routes>
