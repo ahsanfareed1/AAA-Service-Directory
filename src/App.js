@@ -9,7 +9,6 @@ import ServiceProviders from './pages/ServiceProviders';
 import ProviderProfile from './pages/ProviderProfile';
 import Contact from './pages/Contact';
 import About from './pages/About';
-import Auth from './pages/Auth';
 import CustomerProfile from './pages/CustomerProfile';
 import './App.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -21,7 +20,7 @@ const ProtectedRoute = ({ children }) => {
   const location = useLocation();
 
   if (!isAuthenticated) {
-    return <Navigate to="/auth" state={{ from: location }} replace />;
+    return <Navigate to="/" state={{ from: location }} replace />;
   }
 
   return children;
@@ -59,7 +58,6 @@ function App() {
           <Header />
           <main className="main-content">
             <Routes>
-              <Route path="/auth" element={<Auth />} />
               <Route path="/" element={<Home />} />
               <Route path="/services" element={
                 <ProtectedRoute>

@@ -65,7 +65,10 @@ function Login({ onClose }) {
   };
 
   return (
-    <div className="login-container relative bg-white p-6 rounded shadow-md w-full max-w-md">
+    <div
+      className="login-container relative bg-white p-6 rounded shadow-md w-full"
+      style={{ maxWidth: '600px' }}
+    >
       <button
         type="button"
         onClick={onClose}
