@@ -1,180 +1,127 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../App';
-import { auth } from '../firebase';
-import { signOut } from 'firebase/auth';
-import './Header.css';
 
 const Header = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const mobileNavRef = useRef(null);
-  const overlayRef = useRef(null);
-  const { isAuthenticated, setIsAuthenticated, user, setUser } = useContext(AuthContext);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [location, setLocation] = useState('');
+  const { isAuthenticated, user } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const categories = [
-    { id: 1, name: 'Plumbing', icon: 'fas fa-sink' },
-    { id: 2, name: 'Electrical', icon: 'fas fa-bolt' },
-    { id: 3, name: 'Food', icon: 'fas fa-utensils' },
-    { id: 4, name: 'Painting', icon: 'fas fa-paint-roller' },
-    { id: 5, name: 'Transport', icon: 'fas fa-truck' },
-    { id: 6, name: 'Cleaning', icon: 'fas fa-broom' },
-    { id: 7, name: 'Gardening', icon: 'fas fa-leaf' },
-    { id: 8, name: 'Repair', icon: 'fas fa-tools' },
-    { id: 9, name: 'Security', icon: 'fas fa-shield-alt' }
-  ];
-
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
-  const closeMobileMenu = () => {
-    setIsMobileMenuOpen(false);
-  };
-
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      setIsAuthenticated(false);
-      setUser(null);
-      localStorage.removeItem('user');
-      navigate('/auth');
-      closeMobileMenu();
-    } catch (error) {
-      console.error('Error signing out:', error);
-    }
-  };
-
-  const handleCategoryClick = (categoryId) => {
-    navigate(`/service-providers/${categoryId}`);
-    setIsDropdownOpen(false);
-    closeMobileMenu();
+  const handleSearch = (e) => {
+    e.preventDefault();
+    navigate(`/search?q=${searchTerm}&location=${location}`);
   };
 
   return (
-    <header className="header">
-      <nav className="main-nav">
-        <div className="top-nav">
-          <div className="logo-container">
-            <Link to="/" className="logo-link">
-              <picture className="logo-picture">
-                <source srcSet={`${process.env.PUBLIC_URL}/AAA.jpeg`} type="image/jpeg" />
-                <img src={`${process.env.PUBLIC_URL}/AAA.jpeg`} alt="AAA Logo" className="logo-img" loading="eager" />
-              </picture>
-            </Link>
-          </div>
+    <header className="bg-white shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center py-4">
+          {/* Logo */}
+          <Link to="/" className="flex items-center">
+            <img src="/logo.png" alt="Logo" className="h-8 w-auto" />
+          </Link>
 
-          <div className="nav-links">
-            <Link to="/" className="nav-link">Home</Link>
-            
-            <div className="dropdown-container">
-              <button 
-                className="nav-link dropdown-trigger"
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+          {/* Search Bar */}
+          <form onSubmit={handleSearch} className="flex-1 max-w-2xl mx-8">
+            <div className="flex">
+              <div className="relative flex-1 min-w-0">
+                <input
+                  type="text"
+                  className="block w-full rounded-l-lg border-gray-300 pl-4 pr-12 focus:border-red-500 focus:ring-red-500 sm:text-sm"
+                  placeholder="Search for services..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
+              <div className="relative flex-1 min-w-0">
+                <input
+                  type="text"
+                  className="block w-full border-l-0 border-gray-300 pl-4 pr-12 focus:border-red-500 focus:ring-red-500 sm:text-sm"
+                  placeholder="Location"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                />
+              </div>
+              <button
+                type="submit"
+                className="inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-r-lg text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
               >
-                Services <i className="fas fa-chevron-down"></i>
+                <i className="fas fa-search mr-2"></i>
+                Search
               </button>
-              {isDropdownOpen && (
-                <div className="dropdown-menu">
-                  {categories.map(category => (
-                    <button
-                      key={category.id}
-                      className="dropdown-item"
-                      onClick={() => handleCategoryClick(category.id)}
-                    >
-                      <i className={category.icon}></i>
-                      {category.name}
-                    </button>
-                  ))}
-                </div>
-              )}
             </div>
+          </form>
 
-            <Link to="/about" className="nav-link">About Us</Link>
-            <Link to="/contact" className="nav-link">Contact</Link>
-            
-            {isAuthenticated ? (
-              <div className="user-menu">
-                <Link to="/profile" className="nav-link user-link">
-                  <i className="fas fa-user-circle"></i>
-                  <span className="user-name">{user?.displayName || 'Profile'}</span>
-                </Link>
-                <button onClick={handleLogout} className="nav-link logout-btn">
-                  <i className="fas fa-sign-out-alt"></i> Logout
-                </button>
-              </div>
-            ) : (
-              <div className="auth-buttons">
-                <Link to="/auth" className="nav-link auth-btn login">Login</Link>
-                <Link to="/auth" className="nav-link auth-btn signup">Sign Up</Link>
-              </div>
-            )}
-          </div>
-
-          <div className="hamburger-menu">
-            <button
-              className={`hamburger-btn ${isMobileMenuOpen ? 'active' : ''}`}
-              onClick={toggleMobileMenu}
-              aria-label="Toggle mobile navigation"
-            >
-              <span className="bar"></span>
-              <span className="bar"></span>
-              <span className="bar"></span>
-            </button>
-          </div>
-        </div>
-
-        <div className={`mobile-nav ${isMobileMenuOpen ? 'active' : ''}`} ref={mobileNavRef}>
-          <div className="mobile-nav-header">
-            <button className="close-btn" onClick={closeMobileMenu}>×</button>
-          </div>
-          
-          <nav className="mobile-nav-links">
-            <Link to="/" className="mobile-nav-link" onClick={closeMobileMenu}>Home</Link>
-            
-            <div className="mobile-dropdown">
-              <div className="mobile-dropdown-header">Services</div>
-              {categories.map(category => (
-                <button
-                  key={category.id}
-                  className="mobile-dropdown-item"
-                  onClick={() => handleCategoryClick(category.id)}
-                >
-                  <i className={category.icon}></i>
-                  {category.name}
-                </button>
-              ))}
-            </div>
-
-            <Link to="/about" className="mobile-nav-link" onClick={closeMobileMenu}>About Us</Link>
-            <Link to="/contact" className="mobile-nav-link" onClick={closeMobileMenu}>Contact</Link>
-            
+          {/* Navigation */}
+          <nav className="flex items-center space-x-6">
             {isAuthenticated ? (
               <>
-                <Link to="/profile" className="mobile-nav-link" onClick={closeMobileMenu}>
-                  <i className="fas fa-user-circle"></i> Profile
+                <Link to="/messages" className="text-gray-700 hover:text-red-600">
+                  <i className="fas fa-envelope"></i>
                 </Link>
-                <button onClick={handleLogout} className="mobile-nav-link logout-btn">
-                  <i className="fas fa-sign-out-alt"></i> Logout
-                </button>
+                <Link to="/notifications" className="text-gray-700 hover:text-red-600">
+                  <i className="fas fa-bell"></i>
+                </Link>
+                <div className="relative group">
+                  <button className="flex items-center text-gray-700 hover:text-red-600">
+                    <img
+                      src={user?.photoURL || "https://via.placeholder.com/32"}
+                      alt="Profile"
+                      className="h-8 w-8 rounded-full"
+                    />
+                    <i className="fas fa-chevron-down ml-2"></i>
+                  </button>
+                  <div className="absolute right-0 w-48 mt-2 py-2 bg-white rounded-lg shadow-xl hidden group-hover:block">
+                    <Link to="/profile" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">
+                      Profile
+                    </Link>
+                    <Link to="/settings" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">
+                      Settings
+                    </Link>
+                    <button className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100">
+                      Sign Out
+                    </button>
+                  </div>
+                </div>
               </>
             ) : (
-              <div className="mobile-auth-buttons">
-                <Link to="/auth" className="mobile-nav-link auth-btn" onClick={closeMobileMenu}>
-                  Login / Sign Up
+              <>
+                <Link
+                  to="/login"
+                  className="text-gray-700 hover:text-red-600 font-medium"
+                >
+                  Log In
                 </Link>
-              </div>
+                <Link
+                  to="/signup"
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700"
+                >
+                  Sign Up
+                </Link>
+              </>
             )}
           </nav>
         </div>
-      </nav>
 
-      <div
-        ref={overlayRef}
-        className={`mobile-nav-overlay ${isMobileMenuOpen ? 'active' : ''}`}
-        onClick={closeMobileMenu}
-      />
+        {/* Categories */}
+        <div className="py-3 border-t">
+          <nav className="flex space-x-8">
+            <Link to="/restaurants" className="text-gray-700 hover:text-red-600">
+              Restaurants
+            </Link>
+            <Link to="/home-services" className="text-gray-700 hover:text-red-600">
+              Home Services
+            </Link>
+            <Link to="/auto-services" className="text-gray-700 hover:text-red-600">
+              Auto Services
+            </Link>
+            <Link to="/more" className="text-gray-700 hover:text-red-600">
+              More
+            </Link>
+          </nav>
+        </div>
+      </div>
     </header>
   );
 };
