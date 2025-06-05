@@ -14,113 +14,97 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-white shadow-sm">
+    <header className="bg-white border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-4">
+        <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center">
-            <img src="/logo.png" alt="Logo" className="h-8 w-auto" />
+          <Link to="/" className="flex-shrink-0">
+            <img src="/AAA.jpeg" alt="Logo" className="h-8 w-auto" />
           </Link>
 
-          {/* Search Bar */}
-          <form onSubmit={handleSearch} className="flex-1 max-w-2xl mx-8">
-            <div className="flex">
-              <div className="relative flex-1 min-w-0">
-                <input
-                  type="text"
-                  className="block w-full rounded-l-lg border-gray-300 pl-4 pr-12 focus:border-red-500 focus:ring-red-500 sm:text-sm"
-                  placeholder="Search for services..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-              </div>
-              <div className="relative flex-1 min-w-0">
-                <input
-                  type="text"
-                  className="block w-full border-l-0 border-gray-300 pl-4 pr-12 focus:border-red-500 focus:ring-red-500 sm:text-sm"
-                  placeholder="Location"
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                />
-              </div>
+          {/* Search Form */}
+          <form onSubmit={handleSearch} className="flex-1 max-w-3xl mx-8">
+            <div className="flex shadow-sm">
+              <input
+                type="text"
+                placeholder="Search for services..."
+                className="flex-1 px-4 py-2 border-2 border-r-0 border-gray-300 focus:ring-red-500 focus:border-red-500 rounded-l-md"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <input
+                type="text"
+                placeholder="Location"
+                className="flex-1 px-4 py-2 border-2 border-gray-300 focus:ring-red-500 focus:border-red-500"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+              />
               <button
                 type="submit"
-                className="inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-r-lg text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                className="px-6 py-2 bg-red-600 text-white font-medium rounded-r-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
               >
-                <i className="fas fa-search mr-2"></i>
-                Search
+                <i className="fas fa-search"></i>
               </button>
             </div>
           </form>
 
-          {/* Navigation */}
-          <nav className="flex items-center space-x-6">
+          {/* Auth Buttons */}
+          <div className="flex items-center space-x-4">
             {isAuthenticated ? (
-              <>
-                <Link to="/messages" className="text-gray-700 hover:text-red-600">
-                  <i className="fas fa-envelope"></i>
+              <div className="flex items-center space-x-4">
+                <Link to="/messages" className="text-gray-600 hover:text-red-600">
+                  <i className="fas fa-envelope text-xl"></i>
                 </Link>
-                <Link to="/notifications" className="text-gray-700 hover:text-red-600">
-                  <i className="fas fa-bell"></i>
+                <Link to="/notifications" className="text-gray-600 hover:text-red-600">
+                  <i className="fas fa-bell text-xl"></i>
                 </Link>
                 <div className="relative group">
-                  <button className="flex items-center text-gray-700 hover:text-red-600">
+                  <button className="flex items-center space-x-2 text-gray-600 hover:text-red-600">
                     <img
                       src={user?.photoURL || "https://via.placeholder.com/32"}
                       alt="Profile"
                       className="h-8 w-8 rounded-full"
                     />
-                    <i className="fas fa-chevron-down ml-2"></i>
+                    <i className="fas fa-chevron-down"></i>
                   </button>
-                  <div className="absolute right-0 w-48 mt-2 py-2 bg-white rounded-lg shadow-xl hidden group-hover:block">
-                    <Link to="/profile" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">
-                      Profile
-                    </Link>
-                    <Link to="/settings" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">
-                      Settings
-                    </Link>
-                    <button className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100">
-                      Sign Out
-                    </button>
+                  <div className="absolute right-0 w-48 mt-2 bg-white rounded-md shadow-lg hidden group-hover:block">
+                    <Link to="/profile" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Profile</Link>
+                    <Link to="/settings" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Settings</Link>
+                    <button className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">Sign Out</button>
                   </div>
                 </div>
-              </>
+              </div>
             ) : (
               <>
-                <Link
-                  to="/login"
-                  className="text-gray-700 hover:text-red-600 font-medium"
-                >
+                <Link to="/login" className="text-gray-600 hover:text-red-600 font-medium">
                   Log In
                 </Link>
-                <Link
-                  to="/signup"
-                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700"
-                >
+                <Link to="/signup" className="px-4 py-2 bg-red-600 text-white font-medium rounded-md hover:bg-red-700">
                   Sign Up
                 </Link>
               </>
             )}
-          </nav>
+          </div>
         </div>
 
-        {/* Categories */}
-        <div className="py-3 border-t">
-          <nav className="flex space-x-8">
-            <Link to="/restaurants" className="text-gray-700 hover:text-red-600">
-              Restaurants
-            </Link>
-            <Link to="/home-services" className="text-gray-700 hover:text-red-600">
-              Home Services
-            </Link>
-            <Link to="/auto-services" className="text-gray-700 hover:text-red-600">
-              Auto Services
-            </Link>
-            <Link to="/more" className="text-gray-700 hover:text-red-600">
-              More
-            </Link>
-          </nav>
-        </div>
+        {/* Navigation */}
+        <nav className="flex space-x-8 py-3">
+          <Link to="/restaurants" className="text-gray-600 hover:text-red-600">Restaurants</Link>
+          <Link to="/home-services" className="text-gray-600 hover:text-red-600">Home Services</Link>
+          <Link to="/auto-services" className="text-gray-600 hover:text-red-600">Auto Services</Link>
+          <Link to="/health" className="text-gray-600 hover:text-red-600">Health & Beauty</Link>
+          <Link to="/travel" className="text-gray-600 hover:text-red-600">Travel & Activities</Link>
+          <div className="relative group">
+            <button className="text-gray-600 hover:text-red-600 flex items-center">
+              More <i className="fas fa-chevron-down ml-1"></i>
+            </button>
+            <div className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg hidden group-hover:block">
+              <Link to="/shopping" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Shopping</Link>
+              <Link to="/nightlife" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Nightlife</Link>
+              <Link to="/events" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Events</Link>
+            </div>
+          </div>
+        </nav>
       </div>
     </header>
   );
