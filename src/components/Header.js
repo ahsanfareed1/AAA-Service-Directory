@@ -1,10 +1,15 @@
 import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../App';
+import Login from '../pages/Login';
+import Signup from '../pages/Signup';
 
 const Header = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [location, setLocation] = useState('');
+  const [showLogin, setShowLogin] = useState(false);
+  const [showSignup, setShowSignup] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const { isAuthenticated, user } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -21,6 +26,20 @@ const Header = () => {
           <Link to="/" className="flex-shrink-0">
             <img src="/AAA.jpeg" alt="Logo" className="h-8 w-auto" />
           </Link>
+
+          {/* Mobile Menu Button */}
+          <div className="hamburger-menu md:hidden">
+            <button
+              type="button"
+              className={`hamburger-btn ${menuOpen ? 'active' : ''}`}
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label="Toggle menu"
+            >
+              <span className="bar"></span>
+              <span className="bar"></span>
+              <span className="bar"></span>
+            </button>
+          </div>
 
           {/* Search Form */}
           <form onSubmit={handleSearch} className="flex-1 max-w-3xl mx-8">
@@ -76,12 +95,18 @@ const Header = () => {
               </div>
             ) : (
               <>
-                <Link to="/login" className="text-gray-600 hover:text-red-600 font-medium">
+                <button
+                  onClick={() => setShowLogin(true)}
+                  className="text-gray-600 hover:text-red-600 font-medium"
+                >
                   Log In
-                </Link>
-                <Link to="/signup" className="px-4 py-2 bg-red-600 text-white font-medium rounded-md hover:bg-red-700">
+                </button>
+                <button
+                  onClick={() => setShowSignup(true)}
+                  className="px-4 py-2 bg-red-600 text-white font-medium rounded-md hover:bg-red-700"
+                >
                   Sign Up
-                </Link>
+                </button>
               </>
             )}
           </div>
@@ -106,6 +131,38 @@ const Header = () => {
           </div>
         </nav>
       </div>
+      {showLogin && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <Login onClose={() => setShowLogin(false)} />
+        </div>
+      )}
+      {showSignup && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <Signup onClose={() => setShowSignup(false)} />
+        </div>
+      )}
+
+      {/* Mobile Navigation */}
+      {menuOpen && (
+        <>
+          <div className="mobile-nav-overlay active" onClick={() => setMenuOpen(false)}></div>
+          <div className={`mobile-nav ${menuOpen ? 'active' : ''}`}>
+            <div className="mobile-nav-header">
+              <button className="close-btn" onClick={() => setMenuOpen(false)} aria-label="Close menu">✕</button>
+            </div>
+            <div className="mobile-nav-links">
+              <Link to="/restaurants" className="nav-link" onClick={() => setMenuOpen(false)}>Restaurants</Link>
+              <Link to="/home-services" className="nav-link" onClick={() => setMenuOpen(false)}>Home Services</Link>
+              <Link to="/auto-services" className="nav-link" onClick={() => setMenuOpen(false)}>Auto Services</Link>
+              <Link to="/health" className="nav-link" onClick={() => setMenuOpen(false)}>Health &amp; Beauty</Link>
+              <Link to="/travel" className="nav-link" onClick={() => setMenuOpen(false)}>Travel &amp; Activities</Link>
+              <Link to="/shopping" className="nav-link" onClick={() => setMenuOpen(false)}>Shopping</Link>
+              <Link to="/nightlife" className="nav-link" onClick={() => setMenuOpen(false)}>Nightlife</Link>
+              <Link to="/events" className="nav-link" onClick={() => setMenuOpen(false)}>Events</Link>
+            </div>
+          </div>
+        </>
+      )}
     </header>
   );
 };

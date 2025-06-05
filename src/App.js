@@ -60,11 +60,7 @@ function App() {
           <main className="main-content">
             <Routes>
               <Route path="/auth" element={<Auth />} />
-              <Route path="/" element={
-                <ProtectedRoute>
-                  <Home />
-                </ProtectedRoute>
-              } />
+              <Route path="/" element={<Home />} />
               <Route path="/services" element={
                 <ProtectedRoute>
                   <Services />

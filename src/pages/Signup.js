@@ -1,11 +1,11 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../App';
-import { auth } from '../firebase';
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { auth, googleProvider, facebookProvider } from '../firebase';
+import { createUserWithEmailAndPassword, updateProfile, signInWithPopup } from 'firebase/auth';
 import './Auth.css';
 
-const Signup = () => {
+const Signup = ({ onClose }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
@@ -36,13 +36,39 @@ const Signup = () => {
     }
   };
 
+  const handleGoogleSignIn = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+      navigate('/');
+      setIsAuthenticated(true);
+    } catch (error) {
+      setError('Error with Google sign in');
+    }
+  };
+
+  const handleFacebookSignIn = async () => {
+    try {
+      await signInWithPopup(auth, facebookProvider);
+      navigate('/');
+      setIsAuthenticated(true);
+    } catch (error) {
+      setError('Error with Facebook sign in');
+    }
+  };
+
   return (
-    <div className="auth-container">
+    <div className="auth-container relative bg-white p-6 rounded shadow-md w-full max-w-md">
+      <button
+        type="button"
+        onClick={onClose}
+        className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+      >
+        ✕
+      </button>
       <div className="auth-box">
         <h2>Sign Up</h2>
         <form onSubmit={handleSubmit} className="auth-form">
           {error && <div className="error-message">{error}</div>}
-          }
           <div className="form-group">
             <label htmlFor="name">Full Name</label>
             <input
@@ -75,7 +101,17 @@ const Signup = () => {
           </div>
           <button type="submit" className="auth-button">Sign Up</button>
         </form>
-        <p className="auth-switch">
+        <div className="social-auth mt-4">
+          <button onClick={handleGoogleSignIn} className="social-button google-button">
+            <i className="fab fa-google"></i>
+            Continue with Google
+          </button>
+          <button onClick={handleFacebookSignIn} className="social-button facebook-button">
+            <i className="fab fa-facebook"></i>
+            Continue with Facebook
+          </button>
+        </div>
+        <p className="auth-switch mt-4">
           Already have an account? <Link to="/login">Login</Link>
         </p>
       </div>
