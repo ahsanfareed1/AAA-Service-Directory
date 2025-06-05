@@ -20,6 +20,7 @@ const Header = () => {
   const [showSignup, setShowSignup] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const { isAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -27,6 +28,18 @@ const Header = () => {
     e.preventDefault();
     setSearchOpen(false);
     navigate(`/search?q=${searchTerm}&location=${searchLocation}`);
+  };
+
+  const detectLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const { latitude, longitude } = pos.coords;
+          setSearchLocation(`${latitude.toFixed(5)}, ${longitude.toFixed(5)}`);
+        },
+        () => {}
+      );
+    }
   };
 
   return (
@@ -59,20 +72,44 @@ const Header = () => {
               <img src="/AAA.jpeg" alt="Logo" className="h-8 w-auto" />
             </Link>
             <form onSubmit={handleSearch} className="flex-1 max-w-3xl mx-8">
-              <div className="flex shadow-sm">
-                <input
-                  type="text"
-                  placeholder="Search for services..."
-                  className="flex-1 px-4 py-2 border-2 border-r-0 border-gray-300 focus:ring-red-500 focus:border-red-500 rounded-l-md"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
+              <div className="flex shadow-sm relative">
+                <div className="flex-1 relative">
+                  <input
+                    type="text"
+                    placeholder="Search for services..."
+                    className="w-full px-4 py-2 border-2 border-r-0 border-gray-300 focus:ring-red-500 focus:border-red-500 rounded-l-md"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onFocus={() => setShowSuggestions(true)}
+                    onBlur={() => setTimeout(() => setShowSuggestions(false), 100)}
+                  />
+                  {showSuggestions && (
+                    <ul className="absolute left-0 right-0 bg-white border border-gray-300 rounded-b-md top-full z-10 max-h-48 overflow-y-auto">
+                      {categories.map((c) => (
+                        <li
+                          key={c.label}
+                          className="px-3 py-2 hover:bg-gray-100 cursor-pointer flex items-center"
+                          onMouseDown={() => {
+                            setSearchTerm(c.label);
+                            setShowSuggestions(false);
+                          }}
+                        >
+                          <i className={`fas fa-${c.icon} w-4 mr-2`}></i>
+                          {c.label}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
                 <input
                   type="text"
                   placeholder="Location"
                   className="flex-1 px-4 py-2 border-2 border-gray-300 focus:ring-red-500 focus:border-red-500"
                   value={searchLocation}
                   onChange={(e) => setSearchLocation(e.target.value)}
+                  onFocus={() => {
+                    if (!searchLocation) detectLocation();
+                  }}
                 />
                 <button
                   type="submit"
@@ -161,10 +198,17 @@ const Header = () => {
               placeholder="Lahore, Pakistan 54700"
               value={searchLocation}
               onChange={(e) => setSearchLocation(e.target.value)}
+              onFocus={() => {
+                if (!searchLocation) detectLocation();
+              }}
             />
             <ul className="divide-y mt-4">
               {categories.map((c) => (
-                <li key={c.label} className="flex items-center py-3 space-x-2">
+                <li
+                  key={c.label}
+                  className="flex items-center py-3 space-x-2 cursor-pointer"
+                  onMouseDown={() => setSearchTerm(c.label)}
+                >
                   <i className={`fas fa-${c.icon} w-5 text-gray-600`}></i>
                   <span>{c.label}</span>
                 </li>
