@@ -7,10 +7,23 @@ import './Header.css';
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const mobileNavRef = useRef(null);
   const overlayRef = useRef(null);
   const { isAuthenticated, setIsAuthenticated, user, setUser } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const categories = [
+    { id: 1, name: 'Plumbing', icon: 'fas fa-sink' },
+    { id: 2, name: 'Electrical', icon: 'fas fa-bolt' },
+    { id: 3, name: 'Food', icon: 'fas fa-utensils' },
+    { id: 4, name: 'Painting', icon: 'fas fa-paint-roller' },
+    { id: 5, name: 'Transport', icon: 'fas fa-truck' },
+    { id: 6, name: 'Cleaning', icon: 'fas fa-broom' },
+    { id: 7, name: 'Gardening', icon: 'fas fa-leaf' },
+    { id: 8, name: 'Repair', icon: 'fas fa-tools' },
+    { id: 9, name: 'Security', icon: 'fas fa-shield-alt' }
+  ];
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -33,31 +46,11 @@ const Header = () => {
     }
   };
 
-  React.useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (mobileNavRef.current && !mobileNavRef.current.contains(event.target)) {
-        closeMobileMenu();
-      }
-    };
-
-    const handleKeyDown = (event) => {
-      if (event.key === 'Escape') {
-        closeMobileMenu();
-      }
-    };
-
-    if (isMobileMenuOpen) {
-      document.addEventListener('mousedown', handleOutsideClick);
-      document.addEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = 'hidden';
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
-      document.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = '';
-    };
-  }, [isMobileMenuOpen]);
+  const handleCategoryClick = (categoryId) => {
+    navigate(`/service-providers/${categoryId}`);
+    setIsDropdownOpen(false);
+    closeMobileMenu();
+  };
 
   return (
     <header className="header">
@@ -74,16 +67,48 @@ const Header = () => {
 
           <div className="nav-links">
             <Link to="/" className="nav-link">Home</Link>
-            <Link to="/services" className="nav-link">Services</Link>
+            
+            <div className="dropdown-container">
+              <button 
+                className="nav-link dropdown-trigger"
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              >
+                Services <i className="fas fa-chevron-down"></i>
+              </button>
+              {isDropdownOpen && (
+                <div className="dropdown-menu">
+                  {categories.map(category => (
+                    <button
+                      key={category.id}
+                      className="dropdown-item"
+                      onClick={() => handleCategoryClick(category.id)}
+                    >
+                      <i className={category.icon}></i>
+                      {category.name}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
             <Link to="/about" className="nav-link">About Us</Link>
             <Link to="/contact" className="nav-link">Contact</Link>
+            
             {isAuthenticated ? (
-              <>
-                <Link to="/profile" className="nav-link">Profile</Link>
-                <button onClick={handleLogout} className="nav-link logout-btn">Logout</button>
-              </>
+              <div className="user-menu">
+                <Link to="/profile" className="nav-link user-link">
+                  <i className="fas fa-user-circle"></i>
+                  <span className="user-name">{user?.displayName || 'Profile'}</span>
+                </Link>
+                <button onClick={handleLogout} className="nav-link logout-btn">
+                  <i className="fas fa-sign-out-alt"></i> Logout
+                </button>
+              </div>
             ) : (
-              <Link to="/auth" className="nav-link">Login</Link>
+              <div className="auth-buttons">
+                <Link to="/auth" className="nav-link auth-btn login">Login</Link>
+                <Link to="/auth" className="nav-link auth-btn signup">Sign Up</Link>
+              </div>
             )}
           </div>
 
@@ -101,25 +126,47 @@ const Header = () => {
         </div>
 
         <div className={`mobile-nav ${isMobileMenuOpen ? 'active' : ''}`} ref={mobileNavRef}>
-          <div className="mobile-menu">
-            <div className="mobile-nav-header">
-              <button className="close-btn" onClick={closeMobileMenu}>×</button>
-            </div>
-            <nav className="mobile-nav-links">
-              <Link to="/" className="mobile-nav-link" onClick={closeMobileMenu}>Home</Link>
-              <Link to="/services" className="mobile-nav-link" onClick={closeMobileMenu}>Services</Link>
-              <Link to="/about" className="mobile-nav-link" onClick={closeMobileMenu}>About Us</Link>
-              <Link to="/contact" className="mobile-nav-link" onClick={closeMobileMenu}>Contact</Link>
-              {isAuthenticated ? (
-                <>
-                  <Link to="/profile" className="mobile-nav-link" onClick={closeMobileMenu}>Profile</Link>
-                  <button onClick={handleLogout} className="mobile-nav-link logout-btn">Logout</button>
-                </>
-              ) : (
-                <Link to="/auth" className="mobile-nav-link" onClick={closeMobileMenu}>Login</Link>
-              )}
-            </nav>
+          <div className="mobile-nav-header">
+            <button className="close-btn" onClick={closeMobileMenu}>×</button>
           </div>
+          
+          <nav className="mobile-nav-links">
+            <Link to="/" className="mobile-nav-link" onClick={closeMobileMenu}>Home</Link>
+            
+            <div className="mobile-dropdown">
+              <div className="mobile-dropdown-header">Services</div>
+              {categories.map(category => (
+                <button
+                  key={category.id}
+                  className="mobile-dropdown-item"
+                  onClick={() => handleCategoryClick(category.id)}
+                >
+                  <i className={category.icon}></i>
+                  {category.name}
+                </button>
+              ))}
+            </div>
+
+            <Link to="/about" className="mobile-nav-link" onClick={closeMobileMenu}>About Us</Link>
+            <Link to="/contact" className="mobile-nav-link" onClick={closeMobileMenu}>Contact</Link>
+            
+            {isAuthenticated ? (
+              <>
+                <Link to="/profile" className="mobile-nav-link" onClick={closeMobileMenu}>
+                  <i className="fas fa-user-circle"></i> Profile
+                </Link>
+                <button onClick={handleLogout} className="mobile-nav-link logout-btn">
+                  <i className="fas fa-sign-out-alt"></i> Logout
+                </button>
+              </>
+            ) : (
+              <div className="mobile-auth-buttons">
+                <Link to="/auth" className="mobile-nav-link auth-btn" onClick={closeMobileMenu}>
+                  Login / Sign Up
+                </Link>
+              </div>
+            )}
+          </nav>
         </div>
       </nav>
 
