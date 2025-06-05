@@ -8,18 +8,18 @@ import ServiceCard from '../components/ServiceCard';
 
 const heroSlides = [
   {
-    image: 'https://source.unsplash.com/1600x900/?cleaning',
+    image: 'https://s3-media0.fl.yelpcdn.com/educatorphoto/a5TFEcmNBpVEyrmjux1TKA/o.jpg',
     title: 'Get next level clean',
     cta: 'Pressure Washing',
     credit: 'Photo by Unsplash'
   },
   {
-    image: 'https://source.unsplash.com/1600x900/?restaurant',
+    image: 'https://propakistani.pk/wp-content/uploads/2024/12/IMG_3233.jpeg',
     title: 'Discover great food',
     cta: 'Restaurants'
   },
   {
-    image: 'https://source.unsplash.com/1600x900/?electrician',
+    image: 'https://www.spectrumelectricinc.com/blog/admin/uploads/2022/electrical_panel_2_1668762979.jpg',
     title: 'Expert electricians ready',
     cta: 'Find Electricians'
   }
