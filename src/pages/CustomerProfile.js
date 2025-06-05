@@ -12,7 +12,7 @@ const CustomerProfile = () => {
       if (user) {
         setUser(user);
       } else {
-        navigate('/login');
+        navigate('/');
       }
     });
 
