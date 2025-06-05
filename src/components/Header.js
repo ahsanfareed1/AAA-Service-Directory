@@ -52,7 +52,7 @@ const Header = () => {
           <div className="flex items-center space-x-4">
             {isAuthenticated ? (
               <div className="flex items-center space-x-4">
-                <Link to="/messages" className="text-gray-600 hover:text-red-600">
+                <Link to="/messages\" className="text-gray-600 hover:text-red-600">
                   <i className="fas fa-envelope text-xl"></i>
                 </Link>
                 <Link to="/notifications" className="text-gray-600 hover:text-red-600">
