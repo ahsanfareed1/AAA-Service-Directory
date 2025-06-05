@@ -5,7 +5,19 @@ import { auth, googleProvider, facebookProvider } from '../firebase';
 import { createUserWithEmailAndPassword, updateProfile, signInWithPopup } from 'firebase/auth';
 import './Auth.css';
 
+const cities = [
+  'Karachi',
+  'Lahore',
+  'Islamabad',
+  'Rawalpindi',
+  'Faisalabad',
+  'Multan',
+  'Peshawar',
+  'Quetta'
+];
+
 const Signup = ({ onClose, onSwitchToLogin }) => {
+  const [method, setMethod] = useState(null); // null, 'email'
   const [step, setStep] = useState(1);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -33,7 +45,7 @@ const Signup = ({ onClose, onSwitchToLogin }) => {
     setPasswordStrength(evaluatePasswordStrength(val));
   };
 
-  const handleSubmit = async (e) => {
+  const handleNext = async (e) => {
     e.preventDefault();
     setError('');
 
@@ -97,8 +109,37 @@ const Signup = ({ onClose, onSwitchToLogin }) => {
       </button>
       <div className="auth-box">
         <h2>Sign Up</h2>
-        <form onSubmit={handleSubmit} className="auth-form">
-          {error && <div className="error-message">{error}</div>}
+        {method === 'email' && (
+          <div className="progress-container">
+            <div
+              className="progress-bar"
+              style={{ width: `${(step / 3) * 100}%` }}
+            ></div>
+          </div>
+        )}
+        {error && <div className="error-message">{error}</div>}
+        {!method && (
+          <div className="social-auth">
+            <button onClick={handleGoogleSignIn} className="social-button google-button">
+              <i className="fab fa-google"></i>
+              Continue with Google
+            </button>
+            <button onClick={handleFacebookSignIn} className="social-button facebook-button">
+              <i className="fab fa-facebook"></i>
+              Continue with Facebook
+            </button>
+            <button
+              type="button"
+              className="social-button"
+              onClick={() => setMethod('email')}
+            >
+              <i className="fas fa-envelope"></i>
+              Continue with Email
+            </button>
+          </div>
+        )}
+        {method === 'email' && (
+          <form onSubmit={handleNext} className="auth-form mt-4">
 
           {step === 1 && (
             <>
@@ -163,10 +204,16 @@ const Signup = ({ onClose, onSwitchToLogin }) => {
               <input
                 type="text"
                 id="address"
+                list="city-list"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 required
               />
+              <datalist id="city-list">
+                {cities.map((c) => (
+                  <option key={c} value={c} />
+                ))}
+              </datalist>
             </div>
           )}
 
@@ -174,16 +221,6 @@ const Signup = ({ onClose, onSwitchToLogin }) => {
             {step < 3 ? 'Continue' : 'Sign Up'}
           </button>
         </form>
-        <div className="social-auth mt-4">
-          <button onClick={handleGoogleSignIn} className="social-button google-button">
-            <i className="fab fa-google"></i>
-            Continue with Google
-          </button>
-          <button onClick={handleFacebookSignIn} className="social-button facebook-button">
-            <i className="fab fa-facebook"></i>
-            Continue with Facebook
-          </button>
-        </div>
         <p className="auth-switch mt-4">
           Already have an account?{' '}
           <button
@@ -197,6 +234,7 @@ const Signup = ({ onClose, onSwitchToLogin }) => {
             Login
           </button>
         </p>
+        )}
       </div>
     </div>
   );
