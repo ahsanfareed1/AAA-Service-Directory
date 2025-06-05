@@ -196,8 +196,8 @@ const Header = () => {
               <Link to="/add-business" onClick={() => setMenuOpen(false)} className="text-left">Add a Business on AAA</Link>
             </div>
             <div className="mt-auto p-4 text-sm text-center text-gray-500 border-t">
-              <a href="#" className="mr-2">Ad Choices</a>
-              <a href="#">Support</a>
+              <Link to="/ad-choices" className="mr-2">Ad Choices</Link>
+              <Link to="/support">Support</Link>
             </div>
           </div>
         </div>
