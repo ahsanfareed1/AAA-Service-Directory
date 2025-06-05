@@ -5,7 +5,7 @@ import { auth } from '../firebase';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import './Auth.css';
 
-const Signup = () => {
+const Signup = ({ onClose }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
@@ -37,7 +37,14 @@ const Signup = () => {
   };
 
   return (
-    <div className="auth-container">
+    <div className="auth-container relative bg-white p-6 rounded shadow-md">
+      <button
+        type="button"
+        onClick={onClose}
+        className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+      >
+        ✕
+      </button>
       <div className="auth-box">
         <h2>Sign Up</h2>
         <form onSubmit={handleSubmit} className="auth-form">

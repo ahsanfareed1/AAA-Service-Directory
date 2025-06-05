@@ -1,10 +1,14 @@
 import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../App';
+import Login from '../pages/Login';
+import Signup from '../pages/Signup';
 
 const Header = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [location, setLocation] = useState('');
+  const [showLogin, setShowLogin] = useState(false);
+  const [showSignup, setShowSignup] = useState(false);
   const { isAuthenticated, user } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -76,12 +80,18 @@ const Header = () => {
               </div>
             ) : (
               <>
-                <Link to="/login" className="text-gray-600 hover:text-red-600 font-medium">
+                <button
+                  onClick={() => setShowLogin(true)}
+                  className="text-gray-600 hover:text-red-600 font-medium"
+                >
                   Log In
-                </Link>
-                <Link to="/signup" className="px-4 py-2 bg-red-600 text-white font-medium rounded-md hover:bg-red-700">
+                </button>
+                <button
+                  onClick={() => setShowSignup(true)}
+                  className="px-4 py-2 bg-red-600 text-white font-medium rounded-md hover:bg-red-700"
+                >
                   Sign Up
-                </Link>
+                </button>
               </>
             )}
           </div>
@@ -106,6 +116,16 @@ const Header = () => {
           </div>
         </nav>
       </div>
+      {showLogin && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <Login onClose={() => setShowLogin(false)} />
+        </div>
+      )}
+      {showSignup && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <Signup onClose={() => setShowSignup(false)} />
+        </div>
+      )}
     </header>
   );
 };

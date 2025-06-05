@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { AuthContext } from '../App';
 import { useNavigate } from 'react-router-dom';
 
-function Login() {
+function Login({ onClose }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -19,7 +19,14 @@ function Login() {
   };
 
   return (
-    <div className="login-container">
+    <div className="login-container relative bg-white p-6 rounded shadow-md">
+      <button
+        type="button"
+        onClick={onClose}
+        className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+      >
+        ✕
+      </button>
       <form onSubmit={handleSubmit} className="login-form">
         <h2>Login</h2>
         {error && <div className="error">{error}</div>}
