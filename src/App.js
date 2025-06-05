@@ -59,11 +59,7 @@ function App() {
           <main className="main-content">
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/services" element={
-                <ProtectedRoute>
-                  <Services />
-                </ProtectedRoute>
-              } />
+              <Route path="/services" element={<Services />} />
               <Route path="/service-providers/:serviceId" element={
                 <ProtectedRoute>
                   <ServiceProviders />

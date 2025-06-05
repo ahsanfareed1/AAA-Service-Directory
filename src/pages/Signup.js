@@ -1,11 +1,11 @@
 import React, { useState, useContext } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../App';
 import { auth, googleProvider, facebookProvider } from '../firebase';
 import { createUserWithEmailAndPassword, updateProfile, signInWithPopup } from 'firebase/auth';
 import './Auth.css';
 
-const Signup = ({ onClose }) => {
+const Signup = ({ onClose, onSwitchToLogin }) => {
   const [step, setStep] = useState(1);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -86,7 +86,7 @@ const Signup = ({ onClose }) => {
   return (
     <div
       className="auth-container relative bg-white p-6 rounded shadow-md w-full"
-      style={{ maxWidth: '600px' }}
+      style={{ maxWidth: '600px', width: '90%' }}
     >
       <button
         type="button"
@@ -185,7 +185,17 @@ const Signup = ({ onClose }) => {
           </button>
         </div>
         <p className="auth-switch mt-4">
-          Already have an account? <Link to="/login">Login</Link>
+          Already have an account?{' '}
+          <button
+            type="button"
+            onClick={() => {
+              onClose();
+              onSwitchToLogin && onSwitchToLogin();
+            }}
+            className="text-blue-600 underline"
+          >
+            Login
+          </button>
         </p>
       </div>
     </div>

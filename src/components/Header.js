@@ -71,7 +71,7 @@ const Header = () => {
           <div className="flex items-center space-x-4">
             {isAuthenticated ? (
               <div className="flex items-center space-x-4">
-                <Link to="/messages\" className="text-gray-600 hover:text-red-600">
+                <Link to="/messages" className="text-gray-600 hover:text-red-600">
                   <i className="fas fa-envelope text-xl"></i>
                 </Link>
                 <Link to="/notifications" className="text-gray-600 hover:text-red-600">
@@ -131,15 +131,27 @@ const Header = () => {
           </div>
         </nav>
       </div>
-      {showLogin && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <Login onClose={() => setShowLogin(false)} />
-        </div>
-      )}
+        {showLogin && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <Login
+              onClose={() => setShowLogin(false)}
+              onSwitchToSignup={() => {
+                setShowLogin(false);
+                setShowSignup(true);
+              }}
+            />
+          </div>
+        )}
       {showSignup && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <Signup onClose={() => setShowSignup(false)} />
-        </div>
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <Signup
+              onClose={() => setShowSignup(false)}
+              onSwitchToLogin={() => {
+                setShowSignup(false);
+                setShowLogin(true);
+              }}
+            />
+          </div>
       )}
 
       {/* Mobile Navigation */}

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { auth, googleProvider, facebookProvider } from '../firebase';
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 
-function Login({ onClose }) {
+function Login({ onClose, onSwitchToSignup }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -67,7 +67,7 @@ function Login({ onClose }) {
   return (
     <div
       className="login-container relative bg-white p-6 rounded shadow-md w-full"
-      style={{ maxWidth: '600px' }}
+      style={{ maxWidth: '600px', width: '90%' }}
     >
       <button
         type="button"
@@ -109,6 +109,19 @@ function Login({ onClose }) {
           Continue with Facebook
         </button>
       </div>
+      <p className="auth-switch mt-4">
+        Don't have an account?{' '}
+        <button
+          type="button"
+          onClick={() => {
+            onClose();
+            onSwitchToSignup && onSwitchToSignup();
+          }}
+          className="text-blue-600 underline"
+        >
+          Sign Up
+        </button>
+      </p>
     </div>
   );
 }
