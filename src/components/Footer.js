@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Footer.css';
 
 const Footer = () => {
+  const [showCities, setShowCities] = useState(false);
+
+  const toggleCities = (e) => {
+    e.preventDefault();
+    setShowCities((prev) => !prev);
+  };
   return (
     <footer className="yelp-footer">
       <div className="footer-top">
@@ -59,7 +65,21 @@ const Footer = () => {
             </div>
             <div className="footer-cities">
               <h3>Cities</h3>
-              <a href="/cities">Explore a City <span className="caret">▼</span></a>
+              <button type="button" className="dropdown-toggle" onClick={toggleCities}>
+                Explore a City <span className="caret">▼</span>
+              </button>
+              {showCities && (
+                <ul className="cities-dropdown">
+                  <li><a href="/cities/karachi">Karachi</a></li>
+                  <li><a href="/cities/lahore">Lahore</a></li>
+                  <li><a href="/cities/islamabad">Islamabad</a></li>
+                  <li><a href="/cities/rawalpindi">Rawalpindi</a></li>
+                  <li><a href="/cities/faisalabad">Faisalabad</a></li>
+                  <li><a href="/cities/multan">Multan</a></li>
+                  <li><a href="/cities/peshawar">Peshawar</a></li>
+                  <li><a href="/cities/quetta">Quetta</a></li>
+                </ul>
+              )}
             </div>
           </div>
         </div>
