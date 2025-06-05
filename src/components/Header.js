@@ -71,7 +71,7 @@ const Header = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <Link to="/" className="flex-shrink-0">
-              <img src="/AAA.jpeg" alt="Logo" className="h-8 w-auto" />
+              <img src="/AAA.jpeg" alt="Logo" style="width:110px; border-radius:5px;" />
             </Link>
             <form onSubmit={handleSearch} className="flex-1 max-w-3xl mx-8">
               <div className="flex shadow-sm relative">
