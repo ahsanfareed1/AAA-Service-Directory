@@ -76,7 +76,7 @@ const Header = () => {
             background: isHome ? 'transparent' : 'linear-gradient(135deg, #1e3a8a 0%, #1f2937 100%)',
             height: '70px'
           }}>
-            <div className="max-w-7xl mx-auto px-4 h-full flex items-center justify-between">
+            <div className="w-full px-4 flex items-center justify-between">
               {/* Logo */}
               <Link to="/" className="flex items-center">
                 <div className="text-white text-2xl font-bold">
@@ -86,8 +86,9 @@ const Header = () => {
               </Link>
 
               {/* Search Bar - Center */}
-              <form onSubmit={handleSearch} className="flex-1 max-w-2xl mx-8">
-                <div className="flex bg-white rounded-md shadow-lg overflow-hidden">
+              <div className="flex-1 flex justify-center">
+                <form onSubmit={handleSearch} className="w-full max-w-7xl px-4">
+                  <div className="flex bg-white rounded-md shadow-lg overflow-hidden">
                   <div className="flex-1 relative">
                     <input
                       type="text"
@@ -154,9 +155,10 @@ const Header = () => {
                   </button>
                 </div>
               </form>
+              </div>
 
               {/* Right Navigation */}
-              <div className="flex items-center space-x-6 text-white">
+              <div className="flex items-center space-x-6 text-white ml-4">
                 {isAuthenticated ? (
                   <>
                     <Link to="/business\" className="hover:text-gray-300 transition-colors">
@@ -209,8 +211,9 @@ const Header = () => {
 
           {/* Sub Navigation */}
           <div className={`${isHome ? 'bg-transparent text-white' : 'bg-white text-gray-700'} border-b border-gray-200`}>
-            <div className="max-w-7xl mx-auto px-4">
-              <nav className="flex space-x-8 py-3">
+            <div className="flex justify-center">
+              <div className="w-full max-w-7xl px-4">
+                <nav className="flex space-x-8 py-3 justify-center">
                 <Link to="/restaurants" className="hover:text-red-600 transition-colors flex items-center">
                   Restaurants <i className="fas fa-chevron-down ml-1 text-xs"></i>
                 </Link>
