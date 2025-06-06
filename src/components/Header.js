@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../App';
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
+import services from '../data/servicesData';
 
 const categories = [
   { icon: 'utensils', label: 'Restaurants', path: '/restaurants' },
@@ -13,6 +14,11 @@ const categories = [
   { icon: 'car', label: 'Auto Repair', path: '/auto-repair' },
 ];
 
+const searchOptions = [
+  ...categories.map((c) => ({ icon: c.icon, label: c.label })),
+  ...services.map((s) => ({ icon: null, label: s.title })),
+];
+
 const Header = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchLocation, setSearchLocation] = useState('Afton, CA 92309');
@@ -20,6 +26,7 @@ const Header = () => {
   const [showSignup, setShowSignup] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [showLocationSuggestions, setShowLocationSuggestions] = useState(false);
   const { isAuthenticated, user, setIsAuthenticated, setUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
@@ -40,11 +47,10 @@ const Header = () => {
   const detectLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          const { latitude, longitude } = pos.coords;
-          setSearchLocation(`${latitude.toFixed(5)}, ${longitude.toFixed(5)}`);
+        () => {
+          setSearchLocation('Current Location');
         },
-        () => {}
+        () => setSearchLocation('Current Location')
       );
     }
   };
@@ -86,35 +92,52 @@ const Header = () => {
                     />
                     {showSuggestions && searchTerm && (
                       <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-b-md shadow-lg z-10 max-h-48 overflow-y-auto">
-                        {categories
-                          .filter(c => c.label.toLowerCase().includes(searchTerm.toLowerCase()))
-                          .map((c) => (
-                          <div
-                            key={c.label}
-                            className="px-4 py-3 hover:bg-gray-100 cursor-pointer flex items-center"
-                            onMouseDown={() => {
-                              setSearchTerm(c.label);
-                              setShowSuggestions(false);
-                            }}
-                          >
-                            <i className={`fas fa-${c.icon} w-5 mr-3 text-gray-600`}></i>
-                            <span className="text-gray-900">{c.label}</span>
-                          </div>
-                        ))}
+                        {searchOptions
+                          .filter(o => o.label.toLowerCase().includes(searchTerm.toLowerCase()))
+                          .map((o) => (
+                            <div
+                              key={o.label}
+                              className="px-4 py-3 hover:bg-gray-100 cursor-pointer flex items-center"
+                              onMouseDown={() => {
+                                setSearchTerm(o.label);
+                                setShowSuggestions(false);
+                              }}
+                            >
+                              {o.icon && <i className={`fas fa-${o.icon} w-5 mr-3 text-gray-600`}></i>}
+                              <span className="text-gray-900">{o.label}</span>
+                            </div>
+                          ))}
                       </div>
                     )}
                   </div>
                   <div className="w-px bg-gray-300"></div>
-                  <input
-                    type="text"
-                    placeholder="Afton, CA 92309"
-                    className="flex-1 px-4 py-3 text-gray-900 focus:outline-none"
-                    value={searchLocation}
-                    onChange={(e) => setSearchLocation(e.target.value)}
-                    onFocus={() => {
-                      if (!searchLocation) detectLocation();
-                    }}
-                  />
+                  <div className="flex-1 relative">
+                    <input
+                      type="text"
+                      placeholder="Afton, CA 92309"
+                      className="w-full px-4 py-3 text-gray-900 focus:outline-none"
+                      value={searchLocation}
+                      onChange={(e) => setSearchLocation(e.target.value)}
+                      onFocus={() => {
+                        setShowLocationSuggestions(true);
+                        if (!searchLocation) detectLocation();
+                      }}
+                      onBlur={() => setTimeout(() => setShowLocationSuggestions(false), 200)}
+                    />
+                    {showLocationSuggestions && (
+                      <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-b-md shadow-lg z-10">
+                        <div
+                          className="px-4 py-3 hover:bg-gray-100 cursor-pointer"
+                          onMouseDown={() => {
+                            detectLocation();
+                            setShowLocationSuggestions(false);
+                          }}
+                        >
+                          Select Current Location
+                        </div>
+                      </div>
+                    )}
+                  </div>
                   <button
                     type="submit"
                     className="bg-red-600 text-white px-6 py-3 hover:bg-red-700 transition-colors"
@@ -134,8 +157,8 @@ const Header = () => {
                     <Link to="/write-review" className="hover:text-gray-300 transition-colors">
                       Write a Review
                     </Link>
-                    <Link to="/start-project" className="hover:text-gray-300 transition-colors">
-                      Start a Project
+                    <Link to="/complaint" className="hover:text-gray-300 transition-colors">
+                      Send Complaint
                     </Link>
                     <div className="flex items-center space-x-3">
                       <span>Hi, {user?.displayName || 'User'}</span>
@@ -155,8 +178,8 @@ const Header = () => {
                     <Link to="/write-review" className="hover:text-gray-300 transition-colors">
                       Write a Review
                     </Link>
-                    <Link to="/start-project" className="hover:text-gray-300 transition-colors">
-                      Start a Project
+                    <Link to="/complaint" className="hover:text-gray-300 transition-colors">
+                      Send Complaint
                     </Link>
                     <button 
                       onClick={() => setShowLogin(true)} 

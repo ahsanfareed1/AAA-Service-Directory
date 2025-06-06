@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
+import services from '../data/servicesData';
 
 const Search = () => {
   const [searchParams] = useSearchParams();
@@ -18,62 +19,31 @@ const Search = () => {
   const location = searchParams.get('location') || '';
 
   useEffect(() => {
-    // Simulate search results
-    const mockResults = [
-      {
-        id: 1,
-        name: "Elite Plumbing Solutions",
-        category: "Plumbing",
-        rating: 4.8,
-        reviewCount: 245,
-        price: "$$",
-        distance: "0.5 mi",
-        image: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=300&h=200&fit=crop",
-        description: "Professional plumbing services with 24/7 emergency support",
-        address: "123 Main St, Downtown",
-        phone: "(555) 123-4567",
+    const term = query.toLowerCase();
+    const matched = services
+      .filter(
+        (s) =>
+          s.title.toLowerCase().includes(term) ||
+          s.category.toLowerCase().includes(term) ||
+          s.tags.some((tag) => tag.toLowerCase().includes(term))
+      )
+      .map((s) => ({
+        id: s.id,
+        name: s.title,
+        category: s.category,
+        rating: s.rating,
+        reviewCount: s.reviewCount,
+        price: `PKR ${s.priceStart}`,
+        distance: '',
+        image: s.image,
+        description: s.description,
+        address: '',
+        phone: s.phone,
         isOpen: true,
-        tags: ["Emergency Service", "Licensed", "Insured"],
-        coordinates: { lat: 34.0522, lng: -118.2437 }
-      },
-      {
-        id: 2,
-        name: "Quick Fix Electricians",
-        category: "Electrical",
-        rating: 4.6,
-        reviewCount: 189,
-        price: "$$$",
-        distance: "1.2 mi",
-        image: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=300&h=200&fit=crop",
-        description: "Expert electrical repairs and installations",
-        address: "456 Oak Ave, Midtown",
-        phone: "(555) 987-6543",
-        isOpen: false,
-        tags: ["Same Day Service", "Free Estimates"],
-        coordinates: { lat: 34.0622, lng: -118.2537 }
-      },
-      {
-        id: 3,
-        name: "Gourmet Catering Co.",
-        category: "Catering",
-        rating: 4.9,
-        reviewCount: 312,
-        price: "$$$$",
-        distance: "2.1 mi",
-        image: "https://images.unsplash.com/photo-1555244162-803834f70033?w=300&h=200&fit=crop",
-        description: "Premium catering for all occasions",
-        address: "789 Pine St, Uptown",
-        phone: "(555) 456-7890",
-        isOpen: true,
-        tags: ["Wedding Specialist", "Organic Options"],
-        coordinates: { lat: 34.0722, lng: -118.2637 }
-      }
-    ];
-
-    setTimeout(() => {
-      setResults(mockResults);
-      setLoading(false);
-    }, 1000);
+        tags: s.tags,
+      }));
+    setResults(matched);
+    setLoading(false);
   }, [query, location]);
 
   const handleBusinessClick = (business) => {

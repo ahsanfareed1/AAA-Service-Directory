@@ -56,6 +56,15 @@
   font-size: 1.125rem;
 }
 
+.price {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.phone {
+  margin-bottom: 1rem;
+}
+
 .tags {
   display: flex;
   flex-wrap: wrap;
