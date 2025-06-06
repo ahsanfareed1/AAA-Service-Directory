@@ -35,6 +35,24 @@ const heroSlides = [
     title: 'Home repairs done right',
     cta: 'Handyman Services',
     credit: 'Photo by Unsplash'
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1616352218533-bf580e5959e0?w=1200&h=600&fit=crop',
+    title: 'Relax at the spa',
+    cta: 'Spa & Wellness',
+    credit: 'Photo by Unsplash'
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1550639524-aef92f2b33fa?w=1200&h=600&fit=crop',
+    title: 'Pamper your pets',
+    cta: 'Pet Grooming',
+    credit: 'Photo by Unsplash'
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=1200&h=600&fit=crop',
+    title: 'Travel the world',
+    cta: 'Book Travel',
+    credit: 'Photo by Unsplash'
   }
 ];
 

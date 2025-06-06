@@ -113,6 +113,56 @@ const Services = () => {
       rating: 4.1,
       category: 'Food & Dining',
       tags: ['Fast Delivery', 'Local Restaurants', 'Real-time Tracking', 'Multiple Cuisines']
+    },
+    {
+      id: 12,
+      title: 'Spa & Wellness',
+      description: 'Relaxing spa treatments and wellness programs for rejuvenation',
+      icon: '💆',
+      image: 'https://images.unsplash.com/photo-1527770625600-d6926f9d9fda?w=400&h=200&fit=crop',
+      rating: 4.6,
+      category: 'Health & Wellness',
+      tags: ['Massage', 'Therapy', 'Relaxation', 'Beauty']
+    },
+    {
+      id: 13,
+      title: 'Pet Grooming',
+      description: 'Professional grooming services to keep your pets happy and healthy',
+      icon: '🐾',
+      image: 'https://images.unsplash.com/photo-1550639524-aef92f2b33fa?w=400&h=200&fit=crop',
+      rating: 4.5,
+      category: 'Pets',
+      tags: ['Bathing', 'Trimming', 'Nail Care', 'Pet Spa']
+    },
+    {
+      id: 14,
+      title: 'Car Repair',
+      description: 'Comprehensive automotive repair and maintenance services',
+      icon: '🚗',
+      image: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400&h=200&fit=crop',
+      rating: 4.4,
+      category: 'Automotive',
+      tags: ['Diagnostics', 'Engine Repair', 'Oil Change', 'Brakes']
+    },
+    {
+      id: 15,
+      title: 'Travel Agency',
+      description: 'Expert travel planning and booking services for your next vacation',
+      icon: '✈️',
+      image: 'https://images.unsplash.com/photo-1502920514313-52581002a659?w=400&h=200&fit=crop',
+      rating: 4.7,
+      category: 'Travel',
+      tags: ['Flights', 'Hotels', 'Tours', 'Vacation Packages']
+    },
+    {
+      id: 16,
+      title: 'Home Security',
+      description: 'Advanced security systems and installation for your home and business',
+      icon: '🛡️',
+      image: 'https://images.unsplash.com/photo-1580894908361-3d9971d2ab7a?w=400&h=200&fit=crop',
+      rating: 4.8,
+      category: 'Security',
+      tags: ['Alarm Systems', 'CCTV', 'Monitoring', 'Installation']
     }
   ];
 
