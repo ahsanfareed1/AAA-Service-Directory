@@ -161,7 +161,7 @@ const Header = () => {
               <div className="flex items-center space-x-6 text-white ml-4">
                 {isAuthenticated ? (
                   <>
-                    <Link to="/business\" className="hover:text-gray-300 transition-colors">
+                    <Link to="/business" className="hover:text-gray-300 transition-colors">
                       AAA for Business
                     </Link>
                     <Link to="/write-review" className="hover:text-gray-300 transition-colors">
