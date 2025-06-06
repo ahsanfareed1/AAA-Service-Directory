@@ -71,7 +71,7 @@ const Header = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <Link to="/" className="flex-shrink-0">
-              <img src="/AAA.jpeg" alt="Logo" style="width:110px; border-radius:5px;" />
+              <img src="/AAA.jpeg" alt="Logo" style={{ width: '110px', borderRadius: '5px' }} />
             </Link>
             <form onSubmit={handleSearch} className="flex-1 max-w-3xl mx-8">
               <div className="flex shadow-sm relative">
@@ -150,8 +150,8 @@ const Header = () => {
             <Link to="/restaurants" className="hover:text-red-600">Restaurants</Link>
             <Link to="/home-services" className="hover:text-red-600">Home Services</Link>
             <Link to="/auto-services" className="hover:text-red-600">Auto Services</Link>
-            <Link to="/health" className="hover:text-red-600">Health &amp; Beauty</Link>
-            <Link to="/travel" className="hover:text-red-600">Travel &amp; Activities</Link>
+            <Link to="/health" className="hover:text-red-600">Health & Beauty</Link>
+            <Link to="/travel" className="hover:text-red-600">Travel & Activities</Link>
           </nav>
         </div>
       </div>
