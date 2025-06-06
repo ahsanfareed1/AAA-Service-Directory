@@ -239,19 +239,9 @@ const Header = () => {
 
         {/* Mobile Header */}
         <div className="md:hidden">
-          <div
-            className={`flex items-center justify-between px-4 py-3 transition-colors ${
-              scrolled || !isHome
-                ? 'bg-white text-gray-900 shadow'
-                : 'bg-transparent text-white'
-            }`}
-          >
-            <Link to="#open-app" className="text-sm font-medium">
-              Open in App
-            </Link>
-            <Link to="/" className="text-xl font-bold">
-              AAA
-            </Link>
+          <div className="flex items-center justify-between px-4 py-3 bg-red-600 text-white">
+            <Link to="#open-app" className="text-sm font-medium">Open in App</Link>
+            <Link to="/" className="text-xl font-bold">AAA</Link>
             <button aria-label="Menu" onClick={() => setMenuOpen(true)}>
               <i className="fas fa-bars text-xl"></i>
             </button>
@@ -300,7 +290,6 @@ const Header = () => {
         <div className="fixed inset-0 bg-white z-50 flex flex-col">
           <div className="flex items-center justify-between bg-red-600 text-white px-4 py-3">
             <button onClick={() => setMobileSearchOpen(false)}>Cancel</button>
-            <span className="font-semibold">Search</span>
             <button onClick={handleSearch}>Search</button>
           </div>
           <form onSubmit={handleSearch} className="p-4 space-y-4 overflow-y-auto flex-1">
@@ -334,7 +323,7 @@ const Header = () => {
       {menuOpen && (
         <div className="fixed inset-0 z-50 bg-white flex flex-col">
           <div className="flex items-center justify-between bg-red-600 text-white px-4 py-3">
-            <div className="text-xl font-bold mx-auto">AAA</div>
+            <div className="flex-1 text-center text-xl font-bold">AAA</div>
             <button aria-label="Close" onClick={() => setMenuOpen(false)} className="text-2xl">✕</button>
           </div>
           <nav className="flex-1 overflow-y-auto p-4 space-y-4">
