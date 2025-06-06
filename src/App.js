@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import Services from './pages/Services';
 import ServiceProviders from './pages/ServiceProviders';
 import ProviderProfile from './pages/ProviderProfile';
+import ServiceProfile from './pages/ServiceProfile';
 import Contact from './pages/Contact';
 import About from './pages/About';
 import CustomerProfile from './pages/CustomerProfile';
@@ -68,6 +69,7 @@ function App() {
               <Route path="/services" element={<Services />} />
               <Route path="/search" element={<Search />} />
               <Route path="/business/:businessId" element={<BusinessProfile />} />
+              <Route path="/service/:serviceId" element={<ServiceProfile />} />
               <Route path="/service-providers/:serviceId" element={
                 <ProtectedRoute>
                   <ServiceProviders />
@@ -110,7 +112,7 @@ function App() {
               <Route path="/event-planning" element={<Services />} />
               <Route path="/education" element={<Services />} />
               {/* Catch all route - redirect to home */}
-              <Route path="*" element={<Navigate to="/\" replace />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </main>
           <Footer />

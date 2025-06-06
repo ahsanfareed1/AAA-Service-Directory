@@ -22,7 +22,12 @@ const ServiceProviders = () => {
       8: "Home Repair",
       9: "Locksmith Services",
       10: "Online Courses",
-      11: "Food Delivery"
+      11: "Food Delivery",
+      12: "Spa & Wellness",
+      13: "Pet Grooming",
+      14: "Car Repair",
+      15: "Travel Agency",
+      16: "Home Security"
     };
 
     setServiceTitle(serviceTitles[serviceId] || 'Service Providers');
