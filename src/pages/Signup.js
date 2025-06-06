@@ -160,7 +160,7 @@ const Signup = ({ onClose, onSwitchToLogin }) => {
           {step === 1 && (
             <>
               <div>
-                <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="firstName\" className="block text-sm font-medium text-gray-700 mb-1">
                   First Name
                 </label>
                 <input
