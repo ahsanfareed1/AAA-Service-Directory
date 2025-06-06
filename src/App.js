@@ -10,6 +10,7 @@ import ProviderProfile from './pages/ProviderProfile';
 import Contact from './pages/Contact';
 import About from './pages/About';
 import CustomerProfile from './pages/CustomerProfile';
+import Search from './pages/Search';
 import './App.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
@@ -48,7 +49,11 @@ function App() {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-red-600"></div>
+      </div>
+    );
   }
 
   return (
@@ -60,6 +65,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/services" element={<Services />} />
+              <Route path="/search" element={<Search />} />
               <Route path="/service-providers/:serviceId" element={
                 <ProtectedRoute>
                   <ServiceProviders />
