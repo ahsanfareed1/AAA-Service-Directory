@@ -134,6 +134,33 @@ const sponsoredServices = [
   }
 ];
 
+const featuredServices = [
+  {
+    id: 1,
+    title: 'Plumbing Services',
+    description: 'Professional plumbing repairs and installations for your home and business',
+    image: 'https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=400&h=200&fit=crop'
+  },
+  {
+    id: 3,
+    title: 'Food Catering',
+    description: 'Delicious catering services for all occasions',
+    image: 'https://images.unsplash.com/photo-1555244162-803834f70033?w=400&h=200&fit=crop'
+  },
+  {
+    id: 6,
+    title: 'Home Cleaning',
+    description: 'Thorough home and office cleaning services with eco-friendly products',
+    image: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400&h=200&fit=crop'
+  },
+  {
+    id: 12,
+    title: 'Spa & Wellness',
+    description: 'Relaxing spa treatments and wellness programs for rejuvenation',
+    image: 'https://images.unsplash.com/photo-1527770625600-d6926f9d9fda?w=400&h=200&fit=crop'
+  }
+];
+
 const recentActivity = [
   {
     user: 'Sarah K.',
@@ -207,6 +234,34 @@ const Home = () => {
             </div>
           ))}
         </Slider>
+      </section>
+
+      {/* Featured Services Section */}
+      <section className="featured-services-section">
+        <div className="container">
+          <h2>Featured Services</h2>
+          <div className="services-grid">
+            {featuredServices.map((service) => (
+              <Link
+                key={service.id}
+                to={`/service/${service.id}`}
+                className="service-card"
+              >
+                <div className="service-image-container">
+                  <img
+                    src={service.image}
+                    alt={service.title}
+                    className="service-image"
+                  />
+                </div>
+                <div className="service-content">
+                  <h3>{service.title}</h3>
+                  <p className="service-description">{service.description}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* Recent Activity Section */}
