@@ -67,7 +67,7 @@ const Header = () => {
     <>
       {/* Main Header */}
       <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        isHome ? 'bg-transparent' : 'bg-white shadow-sm'
+        scrolled ? 'bg-white shadow-sm' : isHome ? 'bg-transparent' : 'bg-white shadow-sm'
       }`}>
         {/* Desktop Header */}
         <div className="hidden md:block">
@@ -238,11 +238,11 @@ const Header = () => {
         <div className="md:hidden">
           <div
             className={`flex items-center justify-between px-4 py-3 ${
-              isHome && !scrolled ? 'bg-transparent text-white' : 'bg-red-600 text-white'
+              scrolled ? 'bg-white text-gray-900 shadow' : 'bg-red-600 text-white'
             }`}
           >
-            <Link to="/complaint" className="text-sm font-medium">
-              Complaint
+            <Link to="#open-app" className="text-sm font-medium">
+              Open in App
             </Link>
             <Link to="/" className="text-xl font-bold">
               AAA
@@ -337,6 +337,7 @@ const Header = () => {
             <Link to="#add-business" className="text-gray-900">Add a Business on Yelp</Link>
           </nav>
           <div className="p-4 border-t text-center space-y-3">
+            <Link to="#ad-choices" className="text-gray-900 block">Ad Choices</Link>
             <Link to="#support" className="text-gray-900 block">Support</Link>
             {!isAuthenticated && (
               <>
