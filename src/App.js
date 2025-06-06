@@ -110,7 +110,7 @@ function App() {
               <Route path="/event-planning" element={<Services />} />
               <Route path="/education" element={<Services />} />
               {/* Catch all route - redirect to home */}
-              <Route path="*" element={<Navigate to="/" replace />} />
+              <Route path="*" element={<Navigate to="/\" replace />} />
             </Routes>
           </main>
           <Footer />
