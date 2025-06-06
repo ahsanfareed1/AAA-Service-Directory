@@ -91,6 +91,22 @@ function App() {
                   <CustomerProfile />
                 </ProtectedRoute>
               } />
+              {/* Category Routes */}
+              <Route path="/restaurants" element={<Services />} />
+              <Route path="/home-services" element={<Services />} />
+              <Route path="/auto-services" element={<Services />} />
+              <Route path="/health" element={<Services />} />
+              <Route path="/travel" element={<Services />} />
+              <Route path="/shopping" element={<Services />} />
+              <Route path="/nightlife" element={<Services />} />
+              <Route path="/active-life" element={<Services />} />
+              <Route path="/beauty-spas" element={<Services />} />
+              <Route path="/automotive" element={<Services />} />
+              <Route path="/professional-services" element={<Services />} />
+              <Route path="/pets" element={<Services />} />
+              <Route path="/health-medical" element={<Services />} />
+              <Route path="/event-planning" element={<Services />} />
+              <Route path="/education" element={<Services />} />
             </Routes>
           </main>
           <Footer />

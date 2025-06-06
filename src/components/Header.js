@@ -52,131 +52,150 @@ const Header = () => {
   };
 
   return (
-    <header className={`${isHome ? 'absolute top-0 left-0 w-full bg-transparent' : 'sticky top-0'} z-50 bg-white shadow-sm`}>
-      {/* Mobile Header */}
-      <div className="md:hidden">
-        <div className={`flex items-center justify-between px-4 py-3 ${isHome ? 'bg-transparent text-white' : 'bg-red-600 text-white'}`}>
-          <button className="text-sm font-medium">Open in App</button>
-          <img src="/AAA.jpeg" alt="AAA logo" className="h-8" />
-          <button aria-label="Menu" onClick={() => setMenuOpen(true)}>
-            <i className="fas fa-bars text-xl"></i>
-          </button>
-        </div>
-        <div className={`${isHome ? 'bg-transparent border-b border-white/50' : 'bg-white border-b'} px-4 py-3`}>
-          <input
-            type="text"
-            placeholder="e.g. tacos, Mel's"
-            className="w-full border rounded-md px-4 py-3 bg-white text-gray-900 placeholder-gray-500"
-            onFocus={() => setSearchOpen(true)}
-            readOnly
-          />
-        </div>
-      </div>
-
+    <>
       {/* Desktop Header */}
-      <div className={`hidden md:block ${isHome ? 'bg-transparent' : 'bg-white border-b border-gray-200'}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link to="/" className="flex-shrink-0">
-              <img src="/AAA.jpeg" alt="Logo" className="h-10 w-auto" />
-            </Link>
-            
-            <form onSubmit={handleSearch} className="flex-1 max-w-3xl mx-8">
-              <div className="flex shadow-sm relative">
-                <div className="flex-1 relative">
-                  <input
-                    type="text"
-                    placeholder="Search for services..."
-                    className="w-full px-4 py-3 border-2 border-r-0 border-gray-300 focus:ring-red-500 focus:border-red-500 rounded-l-md text-gray-900"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    onFocus={() => setShowSuggestions(true)}
-                    onBlur={() => setTimeout(() => setShowSuggestions(false), 100)}
-                  />
-                  {showSuggestions && (
-                    <ul className="absolute left-0 right-0 bg-white border border-gray-300 rounded-b-md top-full z-10 max-h-48 overflow-y-auto shadow-lg">
-                      {categories.map((c) => (
-                        <li
-                          key={c.label}
-                          className="px-4 py-3 hover:bg-gray-100 cursor-pointer flex items-center border-b border-gray-100 last:border-b-0"
-                          onMouseDown={() => {
-                            setSearchTerm(c.label);
-                            setShowSuggestions(false);
-                          }}
-                        >
-                          <i className={`fas fa-${c.icon} w-5 mr-3 text-gray-600`}></i>
-                          <span className="text-gray-900">{c.label}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
+      <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+        isHome ? 'bg-transparent' : 'bg-white shadow-sm'
+      }`}>
+        <div className="hidden md:block">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Top Bar */}
+            <div className="flex justify-between items-center h-16">
+              <Link to="/" className="flex-shrink-0">
+                <div className="flex items-center">
+                  <div className={`text-2xl font-bold ${isHome ? 'text-white' : 'text-red-600'}`}>
+                    AAA
+                  </div>
                 </div>
-                <input
-                  type="text"
-                  placeholder="Location"
-                  className="flex-1 px-4 py-3 border-2 border-gray-300 focus:ring-red-500 focus:border-red-500 text-gray-900"
-                  value={searchLocation}
-                  onChange={(e) => setSearchLocation(e.target.value)}
-                  onFocus={() => {
-                    if (!searchLocation) detectLocation();
-                  }}
-                />
-                <button
-                  type="submit"
-                  className="px-6 py-3 bg-red-600 text-white font-medium rounded-r-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors"
-                >
-                  <i className="fas fa-search"></i>
-                </button>
-              </div>
-            </form>
-            
-            <div className="flex items-center space-x-4">
-              {isAuthenticated ? (
-                <>
-                  <Link to="/messages\" className="text-gray-600 hover:text-red-600 transition-colors">
-                    <i className="fas fa-envelope text-xl"></i>
-                  </Link>
-                  <Link to="/notifications" className="text-gray-600 hover:text-red-600 transition-colors">
-                    <i className="fas fa-bell text-xl"></i>
-                  </Link>
-                  <div className="flex items-center space-x-3">
-                    <span className="text-gray-700 font-medium">Hi, {user?.displayName || 'User'}</span>
+              </Link>
+              
+              {/* Search Bar - Only show on non-home pages */}
+              {!isHome && (
+                <form onSubmit={handleSearch} className="flex-1 max-w-3xl mx-8">
+                  <div className="flex shadow-sm relative">
+                    <div className="flex-1 relative">
+                      <input
+                        type="text"
+                        placeholder="Search for services..."
+                        className="w-full px-4 py-3 border-2 border-r-0 border-gray-300 focus:ring-red-500 focus:border-red-500 rounded-l-md text-gray-900"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        onFocus={() => setShowSuggestions(true)}
+                        onBlur={() => setTimeout(() => setShowSuggestions(false), 100)}
+                      />
+                      {showSuggestions && (
+                        <ul className="absolute left-0 right-0 bg-white border border-gray-300 rounded-b-md top-full z-10 max-h-48 overflow-y-auto shadow-lg">
+                          {categories.map((c) => (
+                            <li
+                              key={c.label}
+                              className="px-4 py-3 hover:bg-gray-100 cursor-pointer flex items-center border-b border-gray-100 last:border-b-0"
+                              onMouseDown={() => {
+                                setSearchTerm(c.label);
+                                setShowSuggestions(false);
+                              }}
+                            >
+                              <i className={`fas fa-${c.icon} w-5 mr-3 text-gray-600`}></i>
+                              <span className="text-gray-900">{c.label}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                    <input
+                      type="text"
+                      placeholder="Location"
+                      className="flex-1 px-4 py-3 border-2 border-gray-300 focus:ring-red-500 focus:border-red-500 text-gray-900"
+                      value={searchLocation}
+                      onChange={(e) => setSearchLocation(e.target.value)}
+                      onFocus={() => {
+                        if (!searchLocation) detectLocation();
+                      }}
+                    />
                     <button
-                      onClick={handleLogout}
-                      className="text-gray-600 hover:text-red-600 font-medium transition-colors"
+                      type="submit"
+                      className="px-6 py-3 bg-red-600 text-white font-medium rounded-r-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors"
                     >
-                      Log Out
+                      <i className="fas fa-search"></i>
                     </button>
                   </div>
-                </>
-              ) : (
-                <>
-                  <button 
-                    onClick={() => setShowLogin(true)} 
-                    className={`${isHome ? 'text-white hover:text-gray-200' : 'text-gray-700 hover:text-red-600'} font-medium transition-colors`}
-                  >
-                    Log In
-                  </button>
-                  <button
-                    onClick={() => setShowSignup(true)}
-                    className="px-4 py-2 bg-red-600 text-white font-medium rounded-md hover:bg-red-700 transition-colors"
-                  >
-                    Sign Up
-                  </button>
-                </>
+                </form>
               )}
+              
+              {/* Right Side Navigation */}
+              <div className="flex items-center space-x-4">
+                {isAuthenticated ? (
+                  <>
+                    <Link to="/messages" className={`${isHome ? 'text-white hover:text-gray-200' : 'text-gray-600 hover:text-red-600'} transition-colors`}>
+                      <i className="fas fa-envelope text-xl"></i>
+                    </Link>
+                    <Link to="/notifications" className={`${isHome ? 'text-white hover:text-gray-200' : 'text-gray-600 hover:text-red-600'} transition-colors`}>
+                      <i className="fas fa-bell text-xl"></i>
+                    </Link>
+                    <div className="flex items-center space-x-3">
+                      <span className={`${isHome ? 'text-white' : 'text-gray-700'} font-medium`}>
+                        Hi, {user?.displayName || 'User'}
+                      </span>
+                      <button
+                        onClick={handleLogout}
+                        className={`${isHome ? 'text-white hover:text-gray-200' : 'text-gray-600 hover:text-red-600'} font-medium transition-colors`}
+                      >
+                        Log Out
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <button 
+                      onClick={() => setShowLogin(true)} 
+                      className={`${isHome ? 'text-white hover:text-gray-200' : 'text-gray-700 hover:text-red-600'} font-medium transition-colors`}
+                    >
+                      Log In
+                    </button>
+                    <button
+                      onClick={() => setShowSignup(true)}
+                      className="px-4 py-2 bg-red-600 text-white font-medium rounded-md hover:bg-red-700 transition-colors"
+                    >
+                      Sign Up
+                    </button>
+                  </>
+                )}
+              </div>
             </div>
+            
+            {/* Navigation Menu */}
+            <nav className={`flex space-x-8 py-3 ${isHome ? 'text-white' : 'text-gray-700'}`}>
+              <Link to="/restaurants" className="hover:text-red-600 transition-colors">Restaurants</Link>
+              <Link to="/home-services" className="hover:text-red-600 transition-colors">Home Services</Link>
+              <Link to="/auto-services" className="hover:text-red-600 transition-colors">Auto Services</Link>
+              <Link to="/health" className="hover:text-red-600 transition-colors">Health & Beauty</Link>
+              <Link to="/travel" className="hover:text-red-600 transition-colors">Travel & Activities</Link>
+              <button className="hover:text-red-600 transition-colors">More</button>
+            </nav>
           </div>
-          
-          <nav className={`flex space-x-8 py-3 ${isHome ? 'text-white' : 'text-gray-700'}`}>
-            <Link to="/restaurants" className="hover:text-red-600 transition-colors">Restaurants</Link>
-            <Link to="/home-services" className="hover:text-red-600 transition-colors">Home Services</Link>
-            <Link to="/auto-services" className="hover:text-red-600 transition-colors">Auto Services</Link>
-            <Link to="/health" className="hover:text-red-600 transition-colors">Health & Beauty</Link>
-            <Link to="/travel" className="hover:text-red-600 transition-colors">Travel & Activities</Link>
-          </nav>
         </div>
-      </div>
+
+        {/* Mobile Header */}
+        <div className="md:hidden">
+          <div className={`flex items-center justify-between px-4 py-3 ${isHome ? 'bg-transparent text-white' : 'bg-red-600 text-white'}`}>
+            <button className="text-sm font-medium">Open in App</button>
+            <Link to="/" className="text-xl font-bold">AAA</Link>
+            <button aria-label="Menu" onClick={() => setMenuOpen(true)}>
+              <i className="fas fa-bars text-xl"></i>
+            </button>
+          </div>
+          {!isHome && (
+            <div className="bg-white border-b px-4 py-3">
+              <input
+                type="text"
+                placeholder="e.g. tacos, Mel's"
+                className="w-full border rounded-md px-4 py-3 bg-white text-gray-900 placeholder-gray-500"
+                onFocus={() => setSearchOpen(true)}
+                readOnly
+              />
+            </div>
+          )}
+        </div>
+      </header>
 
       {/* Login Modal */}
       {showLogin && (
@@ -257,7 +276,7 @@ const Header = () => {
           <div className="absolute inset-0 bg-black bg-opacity-50" onClick={() => setMenuOpen(false)}></div>
           <div className="absolute inset-0 bg-white flex flex-col">
             <div className="flex items-center justify-between bg-red-600 text-white px-4 py-3">
-              <img src="/AAA.jpeg" alt="AAA logo" className="h-8 mx-auto" />
+              <div className="text-xl font-bold mx-auto">AAA</div>
               <button aria-label="Close" onClick={() => setMenuOpen(false)} className="text-2xl">✕</button>
             </div>
             <div className="flex flex-col p-4 space-y-4">
@@ -284,7 +303,7 @@ const Header = () => {
           </div>
         </div>
       )}
-    </header>
+    </>
   );
 };
 
