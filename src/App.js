@@ -11,6 +11,7 @@ import Contact from './pages/Contact';
 import About from './pages/About';
 import CustomerProfile from './pages/CustomerProfile';
 import Search from './pages/Search';
+import BusinessProfile from './pages/BusinessProfile';
 import './App.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
@@ -66,6 +67,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/services" element={<Services />} />
               <Route path="/search" element={<Search />} />
+              <Route path="/business/:businessId" element={<BusinessProfile />} />
               <Route path="/service-providers/:serviceId" element={
                 <ProtectedRoute>
                   <ServiceProviders />

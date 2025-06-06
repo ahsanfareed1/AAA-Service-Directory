@@ -142,7 +142,7 @@ const recentActivity = [
 
 const Home = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [searchLocation, setSearchLocation] = useState('');
+  const [searchLocation, setSearchLocation] = useState('Afton, CA 92309');
   const navigate = useNavigate();
 
   const handleSearch = (e) => {
@@ -177,32 +177,8 @@ const Home = () => {
                 <div className="hero-overlay"></div>
                 <div className="hero-content">
                   <h1>{slide.title}</h1>
-                  
-                  {/* Search Form on Hero */}
-                  <form onSubmit={handleSearch} className="hero-search-form">
-                    <div className="search-container">
-                      <input
-                        type="text"
-                        placeholder="things to do, nail salons, plumbers"
-                        className="search-input"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                      />
-                      <input
-                        type="text"
-                        placeholder="Afton, CA 94309"
-                        className="location-input"
-                        value={searchLocation}
-                        onChange={(e) => setSearchLocation(e.target.value)}
-                      />
-                      <button type="submit" className="search-button">
-                        <i className="fas fa-search"></i>
-                      </button>
-                    </div>
-                  </form>
-                  
                   <Link to="/services" className="hero-cta-button">
-                    <i className="fas fa-spray-can"></i>
+                    <i className="fas fa-search"></i>
                     {slide.cta}
                   </Link>
                 </div>

@@ -9,7 +9,8 @@ const Search = () => {
   const [filters, setFilters] = useState({
     price: '',
     rating: '',
-    distance: ''
+    distance: '',
+    openNow: false
   });
   const navigate = useNavigate();
 
@@ -32,7 +33,8 @@ const Search = () => {
         address: "123 Main St, Downtown",
         phone: "(555) 123-4567",
         isOpen: true,
-        tags: ["Emergency Service", "Licensed", "Insured"]
+        tags: ["Emergency Service", "Licensed", "Insured"],
+        coordinates: { lat: 34.0522, lng: -118.2437 }
       },
       {
         id: 2,
@@ -47,7 +49,8 @@ const Search = () => {
         address: "456 Oak Ave, Midtown",
         phone: "(555) 987-6543",
         isOpen: false,
-        tags: ["Same Day Service", "Free Estimates"]
+        tags: ["Same Day Service", "Free Estimates"],
+        coordinates: { lat: 34.0622, lng: -118.2537 }
       },
       {
         id: 3,
@@ -62,7 +65,8 @@ const Search = () => {
         address: "789 Pine St, Uptown",
         phone: "(555) 456-7890",
         isOpen: true,
-        tags: ["Wedding Specialist", "Organic Options"]
+        tags: ["Wedding Specialist", "Organic Options"],
+        coordinates: { lat: 34.0722, lng: -118.2637 }
       }
     ];
 
@@ -76,9 +80,29 @@ const Search = () => {
     navigate(`/business/${business.id}`);
   };
 
+  const filteredResults = results.filter(result => {
+    if (filters.price && result.price !== filters.price) return false;
+    if (filters.rating && result.rating < parseFloat(filters.rating)) return false;
+    if (filters.openNow && !result.isOpen) return false;
+    return true;
+  });
+
+  const sortedResults = [...filteredResults].sort((a, b) => {
+    switch (sortBy) {
+      case 'rating':
+        return b.rating - a.rating;
+      case 'reviews':
+        return b.reviewCount - a.reviewCount;
+      case 'distance':
+        return parseFloat(a.distance) - parseFloat(b.distance);
+      default:
+        return b.rating * b.reviewCount - a.rating * a.reviewCount;
+    }
+  });
+
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gray-50 pt-32">
         <div className="max-w-7xl mx-auto px-4 py-8">
           <div className="animate-pulse">
             <div className="h-8 bg-gray-300 rounded w-1/3 mb-4"></div>
@@ -103,7 +127,7 @@ const Search = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pt-32">
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Search Header */}
         <div className="mb-6">
@@ -111,13 +135,13 @@ const Search = () => {
             {query ? `"${query}"` : 'All Businesses'} 
             {location && ` near ${location}`}
           </h1>
-          <p className="text-gray-600">{results.length} results</p>
+          <p className="text-gray-600">{sortedResults.length} results</p>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Filters Sidebar */}
           <div className="lg:w-1/4">
-            <div className="bg-white rounded-lg shadow p-6 sticky top-4">
+            <div className="bg-white rounded-lg shadow p-6 sticky top-36">
               <h3 className="font-semibold text-gray-900 mb-4">Filters</h3>
               
               <div className="space-y-6">
@@ -155,19 +179,27 @@ const Search = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Distance
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={filters.openNow}
+                      onChange={(e) => setFilters({...filters, openNow: e.target.checked})}
+                      className="mr-2"
+                    />
+                    <span className="text-sm text-gray-700">Open Now</span>
                   </label>
-                  <select 
-                    value={filters.distance}
-                    onChange={(e) => setFilters({...filters, distance: e.target.value})}
-                    className="w-full border border-gray-300 rounded-md px-3 py-2"
-                  >
-                    <option value="">Any Distance</option>
-                    <option value="1">Within 1 mile</option>
-                    <option value="5">Within 5 miles</option>
-                    <option value="10">Within 10 miles</option>
-                  </select>
+                </div>
+
+                {/* Google Map Placeholder */}
+                <div className="mt-6">
+                  <h4 className="font-medium text-gray-900 mb-2">Map</h4>
+                  <div className="w-full h-48 bg-gray-200 rounded-lg flex items-center justify-center">
+                    <div className="text-center text-gray-500">
+                      <i className="fas fa-map-marker-alt text-2xl mb-2"></i>
+                      <p className="text-sm">Interactive Map</p>
+                      <p className="text-xs">Showing {sortedResults.length} locations</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -187,14 +219,14 @@ const Search = () => {
                   <option value="recommended">Recommended</option>
                   <option value="rating">Highest Rated</option>
                   <option value="distance">Distance</option>
-                  <option value="price">Price</option>
+                  <option value="reviews">Most Reviews</option>
                 </select>
               </div>
             </div>
 
             {/* Results List */}
             <div className="space-y-4">
-              {results.map((business) => (
+              {sortedResults.map((business) => (
                 <div 
                   key={business.id}
                   className="bg-white rounded-lg shadow hover:shadow-md transition-shadow cursor-pointer"
@@ -236,6 +268,7 @@ const Search = () => {
                         </div>
                         
                         <p className="text-gray-600 mb-2">{business.description}</p>
+                        <p className="text-sm text-gray-500 mb-2">{business.address}</p>
                         
                         <div className="flex items-center justify-between">
                           <div className="flex flex-wrap gap-2">
@@ -263,7 +296,7 @@ const Search = () => {
               ))}
             </div>
 
-            {results.length === 0 && (
+            {sortedResults.length === 0 && (
               <div className="text-center py-12">
                 <i className="fas fa-search text-4xl text-gray-400 mb-4"></i>
                 <h3 className="text-xl font-medium text-gray-900 mb-2">No results found</h3>
