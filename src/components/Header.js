@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../App';
 import Login from '../pages/Login';
@@ -25,6 +25,8 @@ const Header = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [showLocationSuggestions, setShowLocationSuggestions] = useState(false);
   const { isAuthenticated, user, setIsAuthenticated, setUser } = useContext(AuthContext);
@@ -36,6 +38,12 @@ const Header = () => {
     e.preventDefault();
     navigate(`/search?q=${encodeURIComponent(searchTerm)}&location=${encodeURIComponent(searchLocation)}`);
   };
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 0);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('user');
@@ -228,14 +236,28 @@ const Header = () => {
 
         {/* Mobile Header */}
         <div className="md:hidden">
-          <div className={`flex items-center justify-between px-4 py-3 ${
-            isHome ? 'bg-transparent text-white' : 'bg-red-600 text-white'
-          }`}>
-            <button className="text-sm font-medium">Open in App</button>
-            <Link to="/" className="text-xl font-bold">AAA</Link>
+          <div
+            className={`flex items-center justify-between px-4 py-3 ${
+              isHome && !scrolled ? 'bg-transparent text-white' : 'bg-red-600 text-white'
+            }`}
+          >
+            <Link to="/complaint" className="text-sm font-medium">
+              Complaint
+            </Link>
+            <Link to="/" className="text-xl font-bold">
+              AAA
+            </Link>
             <button aria-label="Menu" onClick={() => setMenuOpen(true)}>
               <i className="fas fa-bars text-xl"></i>
             </button>
+          </div>
+          <div className="px-4 py-2 bg-white">
+            <input
+              type="text"
+              placeholder="e.g. elect, auto repair"
+              className="w-full rounded-md border px-3 py-2 text-gray-900"
+              onFocus={() => setMobileSearchOpen(true)}
+            />
           </div>
         </div>
       </header>
@@ -266,31 +288,62 @@ const Header = () => {
         </div>
       )}
 
+      {/* Mobile Search Overlay */}
+      {mobileSearchOpen && (
+        <div className="fixed inset-0 bg-white z-50 flex flex-col">
+          <div className="flex items-center justify-between bg-red-600 text-white px-4 py-3">
+            <button onClick={() => setMobileSearchOpen(false)}>Cancel</button>
+            <span className="font-semibold">Search</span>
+            <button onClick={handleSearch}>Search</button>
+          </div>
+          <form onSubmit={handleSearch} className="p-4 space-y-4 overflow-y-auto flex-1">
+            <input
+              type="text"
+              placeholder="e.g. elect, auto repair"
+              className="w-full border rounded-md px-3 py-2"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Lahore, PK 54000"
+              className="w-full border rounded-md px-3 py-2"
+              value={searchLocation}
+              onChange={(e) => setSearchLocation(e.target.value)}
+            />
+            <ul className="space-y-2 pt-4 border-t">
+              {categories.map((c) => (
+                <li key={c.label} className="flex items-center text-gray-700">
+                  <i className={`fas fa-${c.icon} w-5 mr-3`}></i>
+                  {c.label}
+                </li>
+              ))}
+            </ul>
+          </form>
+        </div>
+      )}
+
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="fixed inset-0 z-50">
-          <div className="absolute inset-0 bg-black bg-opacity-50" onClick={() => setMenuOpen(false)}></div>
-          <div className="absolute inset-0 bg-white flex flex-col">
-            <div className="flex items-center justify-between bg-red-600 text-white px-4 py-3">
-              <div className="text-xl font-bold mx-auto">AAA</div>
-              <button aria-label="Close" onClick={() => setMenuOpen(false)} className="text-2xl">✕</button>
-            </div>
-            <div className="flex flex-col p-4 space-y-4">
-              {!isAuthenticated ? (
-                <>
-                  <button onClick={() => { setMenuOpen(false); setShowSignup(true); }} className="text-left font-medium text-gray-900">Sign Up</button>
-                  <button onClick={() => { setMenuOpen(false); setShowLogin(true); }} className="text-left font-medium text-gray-900">Log In</button>
-                </>
-              ) : (
-                <>
-                  <span className="text-gray-900 font-medium">Hi, {user?.displayName || 'User'}</span>
-                  <button onClick={handleLogout} className="text-left font-medium text-gray-900">Log Out</button>
-                </>
-              )}
-              <Link to="/restaurants" onClick={() => setMenuOpen(false)} className="text-left text-gray-900">Restaurants</Link>
-              <Link to="/home-services" onClick={() => setMenuOpen(false)} className="text-left text-gray-900">Home Services</Link>
-              <Link to="/auto-services" onClick={() => setMenuOpen(false)} className="text-left text-gray-900">Auto Services</Link>
-            </div>
+        <div className="fixed inset-0 z-50 bg-white flex flex-col">
+          <div className="flex items-center justify-between bg-red-600 text-white px-4 py-3">
+            <div className="text-xl font-bold mx-auto">AAA</div>
+            <button aria-label="Close" onClick={() => setMenuOpen(false)} className="text-2xl">✕</button>
+          </div>
+          <nav className="flex-1 overflow-y-auto p-4 space-y-4">
+            <Link to="#nearby" className="text-gray-900">Nearby</Link>
+            <Link to="#bookmarks" className="text-gray-900">Bookmarks</Link>
+            <Link to="#project" className="text-gray-900">Start a Project</Link>
+            <Link to="#add-business" className="text-gray-900">Add a Business on Yelp</Link>
+          </nav>
+          <div className="p-4 border-t text-center space-y-3">
+            <Link to="#support" className="text-gray-900 block">Support</Link>
+            {!isAuthenticated && (
+              <>
+                <button onClick={() => { setMenuOpen(false); setShowSignup(true); }} className="block w-full font-semibold text-red-600">Sign Up</button>
+                <button onClick={() => { setMenuOpen(false); setShowLogin(true); }} className="block w-full">Log In</button>
+              </>
+            )}
           </div>
         </div>
       )}
