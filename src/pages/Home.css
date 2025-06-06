@@ -283,6 +283,19 @@
   padding: 4rem 2rem;
 }
 
+.featured-services-section {
+  background: #ffffff;
+  padding: 4rem 2rem;
+}
+
+.featured-services-section h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
 .sponsored-services-section h2 {
   font-size: 2rem;
   font-weight: 600;
@@ -504,7 +517,8 @@
 
   .recent-activity-section,
   .categories-section,
-  .sponsored-services-section {
+  .sponsored-services-section,
+  .featured-services-section {
     padding: 2rem 1rem;
   }
 }

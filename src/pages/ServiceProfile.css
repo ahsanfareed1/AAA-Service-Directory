@@ -1,0 +1,79 @@
+.service-profile {
+  min-height: 100vh;
+  background: #f7f8fa;
+}
+
+.service-hero {
+  position: relative;
+  height: 40vh;
+  background-size: cover;
+  background-position: center;
+}
+
+.service-hero .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.hero-content {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  color: #fff;
+}
+
+.hero-content h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.providers-btn {
+  background: #d32323;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.providers-btn:hover {
+  background: #b71c1c;
+}
+
+.service-details.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.description {
+  margin-bottom: 1rem;
+  font-size: 1.125rem;
+}
+
+.price {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.phone {
+  margin-bottom: 1rem;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag {
+  background: #e5e7eb;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+}
