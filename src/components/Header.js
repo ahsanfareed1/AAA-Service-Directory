@@ -263,6 +263,8 @@ const Header = () => {
             />
           </div>
         </div>
+        {/* close containers */}
+        </div>
       </header>
 
       {/* Login Modal */}
