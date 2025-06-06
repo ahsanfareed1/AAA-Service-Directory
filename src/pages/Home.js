@@ -1,202 +1,216 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './Home.css';
-import ServiceCard from '../components/ServiceCard';
-
-const heroSlides = [
-  {
-    image: 'https://s3-media0.fl.yelpcdn.com/educatorphoto/a5TFEcmNBpVEyrmjux1TKA/o.jpg',
-    title: 'Get next level clean',
-    cta: 'Pressure Washing',
-    credit: 'Photo by Unsplash'
-  },
-  {
-    image: 'https://propakistani.pk/wp-content/uploads/2024/12/IMG_3233.jpeg',
-    title: 'Discover great food',
-    cta: 'Restaurants'
-  },
-  {
-    image: 'https://www.spectrumelectricinc.com/blog/admin/uploads/2022/electrical_panel_2_1668762979.jpg',
-    title: 'Expert electricians ready',
-    cta: 'Find Electricians'
-  }
-];
-
-const heroSettings = {
-  dots: true,
-  arrows: true,
-  infinite: true,
-  autoplay: true,
-  autoplaySpeed: 5000,
-  speed: 600,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-  fade: true
-};
-
-const categories = [
-  { icon: 'utensils', label: 'Restaurants' },
-  { icon: 'tools', label: 'Plumbers' },
-  { icon: 'bolt', label: 'Electricians' },
-  { icon: 'spa', label: 'Beauty Salons' },
-  { icon: 'paw', label: 'Dog Groomers' },
-  { icon: 'car', label: 'Auto Mechanics' },
-  { icon: 'gavel', label: 'Lawyers' },
-  { icon: 'leaf', label: 'Landscapers' },
-  { icon: 'tooth', label: 'Dentists' },
-  { icon: 'dumbbell', label: 'Gyms' },
-  { icon: 'soap', label: 'Car Wash' },
-  { icon: 'baby', label: 'Daycare' },
-];
-
-const recentActivity = [
-  {
-    user: 'Sarah K.',
-    business: 'Lahore Plumbing Co.',
-    text: 'Great service and quick response!',
-    avatar: 'https://source.unsplash.com/50x50/?woman',
-  },
-  {
-    user: 'Omar T.',
-    business: 'Best Electricians',
-    text: 'Solved my wiring issue in no time.',
-    avatar: 'https://source.unsplash.com/50x50/?man',
-  },
-];
-
-const featuredListings = [
-  {
-    id: 1,
-    name: 'Bright Star Plumbing',
-    description: 'Expert plumbing services with 24/7 support.',
-    image: 'https://source.unsplash.com/300x200/?plumbing',
-    rating: 4.8,
-  },
-  {
-    id: 2,
-    name: 'Elite Electricians',
-    description: 'Certified electricians for home and office.',
-    image: 'https://source.unsplash.com/300x200/?electrician',
-    rating: 4.7,
-  },
-  {
-    id: 3,
-    name: 'Taste of Lahore',
-    description: 'Authentic cuisine with great ambiance.',
-    image: 'https://source.unsplash.com/300x200/?restaurant',
-    rating: 4.6,
-  },
-  {
-    id: 4,
-    name: 'Sparkle Car Wash',
-    description: 'Quick and affordable car wash service.',
-    image: 'https://source.unsplash.com/300x200/?carwash',
-    rating: 4.5,
-  },
-];
-
-const faqs = [
-  {
-    q: 'How do I book a service?',
-    a: 'Browse listings, choose a provider and click Book Now to schedule.',
-  },
-  {
-    q: 'Can I review a business?',
-    a: 'Yes, after completing a service you can leave a review on their page.',
-  },
-  {
-    q: 'Is there a mobile app?',
-    a: 'We are working on it! For now you can use the mobile website.',
-  },
-];
 
 const Home = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchLocation, setSearchLocation] = useState('');
+  const navigate = useNavigate();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    navigate(`/search?q=${encodeURIComponent(searchTerm)}&location=${encodeURIComponent(searchLocation)}`);
+  };
+
+  const categories = [
+    { icon: 'utensils', label: 'Restaurants', link: '/restaurants' },
+    { icon: 'home', label: 'Home Services', link: '/home-services' },
+    { icon: 'car', label: 'Auto Services', link: '/auto-services' },
+    { icon: 'spa', label: 'Beauty & Spas', link: '/beauty-spas' },
+    { icon: 'dumbbell', label: 'Active Life', link: '/active-life' },
+    { icon: 'shopping-bag', label: 'Shopping', link: '/shopping' },
+    { icon: 'briefcase', label: 'Professional Services', link: '/professional-services' },
+    { icon: 'calendar', label: 'Event Planning', link: '/event-planning' },
+    { icon: 'paw', label: 'Pets', link: '/pets' },
+    { icon: 'plane', label: 'Travel', link: '/travel' },
+    { icon: 'heart', label: 'Health & Medical', link: '/health-medical' },
+    { icon: 'graduation-cap', label: 'Education', link: '/education' }
+  ];
+
+  const recentActivity = [
+    {
+      user: 'Sarah K.',
+      business: 'Elite Cleaning Services',
+      text: 'Amazing service! They left my house spotless.',
+      avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=50&h=50&fit=crop&crop=face',
+      rating: 5
+    },
+    {
+      user: 'Mike R.',
+      business: 'QuickFix Plumbing',
+      text: 'Fast response and professional work.',
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=50&h=50&fit=crop&crop=face',
+      rating: 5
+    },
+    {
+      user: 'Jennifer L.',
+      business: 'Gourmet Catering Co.',
+      text: 'Perfect for our wedding! Highly recommend.',
+      avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=50&h=50&fit=crop&crop=face',
+      rating: 5
+    }
+  ];
+
   return (
     <div className="home-page">
-      <section className="hero-carousel">
-        <Slider {...heroSettings}>
-          {heroSlides.map((slide) => (
-            <div
-              key={slide.title}
-              className="hero-slide"
-              style={{ backgroundImage: `url(${slide.image})` }}
-            >
-              <div className="overlay"></div>
-              <div className="slide-content">
-                <h1>{slide.title}</h1>
-                <button className="cta-button">{slide.cta}</button>
-                {slide.credit && (
-                  <span className="credit-text">{slide.credit}</span>
-                )}
+      {/* Hero Section */}
+      <section className="hero-section">
+        <div className="hero-content">
+          <h1>Get next level clean</h1>
+          <div className="hero-search">
+            <form onSubmit={handleSearch} className="search-form">
+              <div className="search-inputs">
+                <input
+                  type="text"
+                  placeholder="e.g. plumbers, electricians, cleaners"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="search-input what-input"
+                />
+                <input
+                  type="text"
+                  placeholder="e.g. Lahore, Pakistan"
+                  value={searchLocation}
+                  onChange={(e) => setSearchLocation(e.target.value)}
+                  className="search-input where-input"
+                />
+                <button type="submit" className="search-button">
+                  <i className="fas fa-search"></i>
+                </button>
+              </div>
+            </form>
+          </div>
+          <div className="hero-cta">
+            <Link to="/services" className="cta-button">
+              <i className="fas fa-spray-can"></i>
+              Pressure washing
+            </Link>
+          </div>
+        </div>
+        <div className="hero-image">
+          <img 
+            src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&h=600&fit=crop" 
+            alt="Professional cleaning service"
+          />
+        </div>
+      </section>
+
+      {/* Recent Activity Section */}
+      <section className="recent-activity-section">
+        <div className="container">
+          <h2>Recent Activity</h2>
+          <div className="activity-list">
+            {recentActivity.map((activity, index) => (
+              <div key={index} className="activity-item">
+                <img src={activity.avatar} alt={activity.user} className="activity-avatar" />
+                <div className="activity-content">
+                  <p>
+                    <strong>{activity.user}</strong> reviewed{' '}
+                    <Link to="#" className="business-link">{activity.business}</Link>
+                  </p>
+                  <div className="activity-rating">
+                    {[...Array(activity.rating)].map((_, i) => (
+                      <i key={i} className="fas fa-star"></i>
+                    ))}
+                  </div>
+                  <p className="activity-text">"{activity.text}"</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Categories Section */}
+      <section className="categories-section">
+        <div className="container">
+          <h2>Categories</h2>
+          <div className="categories-grid">
+            {categories.map((category, index) => (
+              <Link 
+                key={index} 
+                to={category.link} 
+                className="category-item"
+              >
+                <div className="category-icon">
+                  <i className={`fas fa-${category.icon}`}></i>
+                </div>
+                <span className="category-label">{category.label}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Popular Services Section */}
+      <section className="popular-services-section">
+        <div className="container">
+          <h2>Popular Services</h2>
+          <div className="services-grid">
+            <div className="service-card">
+              <img src="https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=300&h=200&fit=crop" alt="Plumbing" />
+              <div className="service-content">
+                <h3>Plumbing</h3>
+                <p>Professional plumbing services</p>
+                <div className="service-rating">
+                  <span className="rating">4.8</span>
+                  <div className="stars">
+                    {[...Array(5)].map((_, i) => (
+                      <i key={i} className="fas fa-star"></i>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
-          ))}
-        </Slider>
-      </section>
 
-      <section className="browse-categories">
-        <h2>Browse by Category</h2>
-        <div className="category-grid">
-          {categories.map((c) => (
-            <div key={c.label} className="category-item">
-              <i className={`fas fa-${c.icon}`}></i>
-              <span>{c.label}</span>
+            <div className="service-card">
+              <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=300&h=200&fit=crop" alt="Cleaning" />
+              <div className="service-content">
+                <h3>House Cleaning</h3>
+                <p>Professional cleaning services</p>
+                <div className="service-rating">
+                  <span className="rating">4.9</span>
+                  <div className="stars">
+                    {[...Array(5)].map((_, i) => (
+                      <i key={i} className="fas fa-star"></i>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
-          ))}
-        </div>
-        <div className="view-all-container">
-          <Link to="/services" className="view-all-link">
-            View All Categories →
-          </Link>
-        </div>
-      </section>
 
-      <section className="featured-listings">
-        <h2>Featured Listings</h2>
-        <div className="services-grid">
-          {featuredListings.map((item) => (
-            <ServiceCard key={item.id} service={{
-              id: item.id,
-              name: item.name,
-              description: item.description,
-              image: item.image,
-              icon: 'fas fa-star',
-              rating: item.rating,
-              reviews: Math.floor(item.rating * 50),
-              price: '',
-              features: [],
-            }} />
-          ))}
-        </div>
-      </section>
-
-      <section className="recent-activity">
-        <h2>Recent Reviews</h2>
-        <div className="activity-list">
-          {recentActivity.map((a, idx) => (
-            <div key={idx} className="activity-item">
-              <img src={a.avatar} alt={a.user} />
-              <p>
-                <strong>{a.user}</strong> reviewed{' '}
-                <span className="font-medium">{a.business}</span>: "{a.text}"
-              </p>
+            <div className="service-card">
+              <img src="https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=300&h=200&fit=crop" alt="Electrical" />
+              <div className="service-content">
+                <h3>Electrical</h3>
+                <p>Licensed electricians</p>
+                <div className="service-rating">
+                  <span className="rating">4.7</span>
+                  <div className="stars">
+                    {[...Array(5)].map((_, i) => (
+                      <i key={i} className="fas fa-star"></i>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
-          ))}
-        </div>
-      </section>
 
-      <section className="faq-section">
-        <h2>Frequently Asked Questions</h2>
-        <div className="faq-list">
-          {faqs.map((f, idx) => (
-            <details key={idx} className="faq-item">
-              <summary>{f.q}</summary>
-              <p>{f.a}</p>
-            </details>
-          ))}
+            <div className="service-card">
+              <img src="https://images.unsplash.com/photo-1555244162-803834f70033?w=300&h=200&fit=crop" alt="Catering" />
+              <div className="service-content">
+                <h3>Catering</h3>
+                <p>Event catering services</p>
+                <div className="service-rating">
+                  <span className="rating">4.6</span>
+                  <div className="stars">
+                    {[...Array(5)].map((_, i) => (
+                      <i key={i} className="fas fa-star"></i>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </div>
