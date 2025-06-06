@@ -68,6 +68,29 @@ const Header = () => {
                   </div>
                 </div>
               </Link>
+
+  {/* Search Form on Hero */}
+                  <form onSubmit={handleSearch} className="hero-search-form">
+                    <div className="search-container">
+                      <input
+                        type="text"
+                        placeholder="things to do, nail salons, plumbers"
+                        className="search-input"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                      />
+                      <input
+                        type="text"
+                        placeholder="Afton, CA 94309"
+                        className="location-input"
+                        value={searchLocation}
+                        onChange={(e) => setSearchLocation(e.target.value)}
+                      />
+                      <button type="submit" className="search-button">
+                        <i className="fas fa-search"></i>
+                      </button>
+                    </div>
+                  </form>
               
               {/* Search Bar - Only show on non-home pages */}
               {!isHome && (
