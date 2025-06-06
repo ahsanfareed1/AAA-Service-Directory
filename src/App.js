@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { createContext, useState, useContext, useEffect } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -109,6 +109,8 @@ function App() {
               <Route path="/health-medical" element={<Services />} />
               <Route path="/event-planning" element={<Services />} />
               <Route path="/education" element={<Services />} />
+              {/* Catch all route - redirect to home */}
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </main>
           <Footer />
