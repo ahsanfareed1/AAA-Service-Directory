@@ -120,3 +120,18 @@
   font-size: 0.9rem;
   margin-top: 0.5rem;
 }
+
+.progress-container {
+  height: 4px;
+  background: #e0e0e0;
+  margin-bottom: 1rem;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: #3498db;
+  width: 0;
+  transition: width 0.3s ease;
+}

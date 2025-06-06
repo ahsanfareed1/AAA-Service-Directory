@@ -6,10 +6,10 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import Services from './pages/Services';
 import ServiceProviders from './pages/ServiceProviders';
+import SearchResults from "./pages/SearchResults";
 import ProviderProfile from './pages/ProviderProfile';
 import Contact from './pages/Contact';
 import About from './pages/About';
-import Auth from './pages/Auth';
 import CustomerProfile from './pages/CustomerProfile';
 import './App.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -21,7 +21,7 @@ const ProtectedRoute = ({ children }) => {
   const location = useLocation();
 
   if (!isAuthenticated) {
-    return <Navigate to="/auth" state={{ from: location }} replace />;
+    return <Navigate to="/" state={{ from: location }} replace />;
   }
 
   return children;
@@ -59,22 +59,14 @@ function App() {
           <Header />
           <main className="main-content">
             <Routes>
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/" element={
-                <ProtectedRoute>
-                  <Home />
-                </ProtectedRoute>
-              } />
-              <Route path="/services" element={
-                <ProtectedRoute>
-                  <Services />
-                </ProtectedRoute>
-              } />
+              <Route path="/" element={<Home />} />
+              <Route path="/services" element={<Services />} />
               <Route path="/service-providers/:serviceId" element={
                 <ProtectedRoute>
                   <ServiceProviders />
                 </ProtectedRoute>
               } />
+              <Route path="/search" element={<SearchResults />} />
               <Route path="/provider/:serviceId/:providerId" element={
                 <ProtectedRoute>
                   <ProviderProfile />

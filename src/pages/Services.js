@@ -9,6 +9,8 @@ const Services = () => {
       title: 'Plumbing Services',
       description: 'Professional plumbing repairs and installations',
       icon: '🚰',
+      image: 'https://source.unsplash.com/featured/?plumbing',
+      rating: 4.5,
       category: 'Plumbing',
       tags: ['Repairs', 'Installation', 'Maintenance', 'Emergency']
     },
@@ -17,6 +19,8 @@ const Services = () => {
       title: 'Electrical Work',
       description: 'Expert electrical services for your home and office',
       icon: '⚡',
+      image: 'https://source.unsplash.com/featured/?electrician',
+      rating: 4.0,
       category: 'Electrical',
       tags: ['Wiring', 'Installation', 'Repairs', 'Safety']
     },
@@ -25,6 +29,8 @@ const Services = () => {
       title: 'Food Catering',
       description: 'Delicious catering services for all occasions',
       icon: '👨‍🍳',
+      image: 'https://source.unsplash.com/featured/?catering',
+      rating: 4.7,
       category: 'Food',
       tags: ['Catering', 'Events', 'Private Chef', 'Parties']
     },
@@ -33,6 +39,8 @@ const Services = () => {
       title: 'Home Painting',
       description: 'Professional painting services for interior and exterior',
       icon: '🎨',
+      image: 'https://source.unsplash.com/featured/?painting',
+      rating: 4.2,
       category: 'Painting',
       tags: ['Interior', 'Exterior', 'Commercial', 'Residential']
     },
@@ -41,6 +49,8 @@ const Services = () => {
       title: 'Transport Services',
       description: 'Reliable transportation and logistics solutions',
       icon: '🚗',
+      image: 'https://source.unsplash.com/featured/?transport',
+      rating: 4.1,
       category: 'Transport',
       tags: ['Delivery', 'Moving', 'Logistics', 'Transport']
     },
@@ -49,6 +59,8 @@ const Services = () => {
       title: 'Home Cleaning',
       description: 'Thorough home and office cleaning services',
       icon: '🧹',
+      image: 'https://source.unsplash.com/featured/?cleaning',
+      rating: 4.3,
       category: 'Cleaning',
       tags: ['Deep Clean', 'Regular', 'Commercial', 'Residential']
     },
@@ -57,6 +69,8 @@ const Services = () => {
       title: 'Gardening & Lawn',
       description: 'Professional garden maintenance and landscaping',
       icon: '🌿',
+      image: 'https://source.unsplash.com/featured/?gardening',
+      rating: 4.6,
       category: 'Gardening',
       tags: ['Maintenance', 'Landscaping', 'Design', 'Care']
     },
@@ -65,6 +79,8 @@ const Services = () => {
       title: 'Home Repair',
       description: 'General home repairs and maintenance services',
       icon: '🔧',
+      image: 'https://source.unsplash.com/featured/?home%20repair',
+      rating: 4.4,
       category: 'Repair',
       tags: ['Maintenance', 'Repairs', 'Installation', 'Renovation']
     },
@@ -73,6 +89,8 @@ const Services = () => {
       title: 'Locksmith Services',
       description: 'Professional locksmith services for all your security needs',
       icon: '🔐',
+      image: 'https://source.unsplash.com/featured/?locksmith',
+      rating: 4.1,
       category: 'Security',
       tags: ['Emergency', 'Lockout', 'Key Duplication', 'Security']
     },
@@ -81,6 +99,8 @@ const Services = () => {
       title: 'Online Courses',
       description: 'Comprehensive online learning for various skills and subjects',
       icon: '🎓',
+      image: 'https://source.unsplash.com/featured/?online%20course',
+      rating: 4.5,
       category: 'Education',
       tags: ['E-learning', 'Certification', 'Workshops', 'Tutorials']
     },
@@ -89,6 +109,8 @@ const Services = () => {
       title: 'Food Delivery',
       description: 'Fast and reliable food delivery from your favorite restaurants',
       icon: '🍔',
+      image: 'https://source.unsplash.com/featured/?food%20delivery',
+      rating: 4.2,
       category: 'Food',
       tags: ['Delivery', 'Takeout', 'Meal Kits', 'Groceries']
     }
@@ -160,21 +182,45 @@ const Services = () => {
       </div>
 
       <div className="services-grid">
-        {filteredServices.map(service => (
+        {filteredServices.map((service) => (
           <div
             key={service.id}
             className="service-card"
             onClick={() => handleServiceClick(service.id)}
           >
-            <div className="service-icon">{service.icon}</div>
-            <h3>{service.title}</h3>
-            <p>{service.description}</p>
-            <div className="service-meta">
-              <span className="service-category">{service.category}</span>
-              <div className="service-tags">
-                {service.tags.map((tag, index) => (
-                  <span key={index} className="service-tag">{tag}</span>
+            <img
+              src={service.image}
+              alt={service.title}
+              className="service-image"
+            />
+            <div className="service-content">
+              <div className="service-icon">{service.icon}</div>
+              <h3>{service.title}</h3>
+              <div className="service-rating">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <i
+                    key={i}
+                    className={`fas fa-star${
+                      i < Math.round(service.rating)
+                        ? ''
+                        : ' text-gray-300'
+                    }`}
+                  ></i>
                 ))}
+                <span className="ml-1 text-sm text-gray-600">
+                  {service.rating.toFixed(1)}
+                </span>
+              </div>
+              <p>{service.description}</p>
+              <div className="service-meta">
+                <span className="service-category">{service.category}</span>
+                <div className="service-tags">
+                  {service.tags.map((tag, index) => (
+                    <span key={index} className="service-tag">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
