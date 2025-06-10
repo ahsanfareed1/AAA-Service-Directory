@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './Home.css';
-import services from '../data/servicesData';
 
 const heroSlides = [
   {
@@ -35,24 +34,6 @@ const heroSlides = [
     image: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=1200&h=600&fit=crop',
     title: 'Home repairs done right',
     cta: 'Handyman Services',
-    credit: 'Photo by Unsplash'
-  },
-  {
-    image: 'https://images.unsplash.com/photo-1616352218533-bf580e5959e0?w=1200&h=600&fit=crop',
-    title: 'Relax at the spa',
-    cta: 'Spa & Wellness',
-    credit: 'Photo by Unsplash'
-  },
-  {
-    image: 'https://images.unsplash.com/photo-1550639524-aef92f2b33fa?w=1200&h=600&fit=crop',
-    title: 'Pamper your pets',
-    cta: 'Pet Grooming',
-    credit: 'Photo by Unsplash'
-  },
-  {
-    image: 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=1200&h=600&fit=crop',
-    title: 'Travel the world',
-    cta: 'Book Travel',
     credit: 'Photo by Unsplash'
   }
 ];
@@ -135,8 +116,6 @@ const sponsoredServices = [
   }
 ];
 
-const featuredServices = services.slice(0, 4);
-
 const recentActivity = [
   {
     user: 'Sarah K.',
@@ -162,7 +141,14 @@ const recentActivity = [
 ];
 
 const Home = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchLocation, setSearchLocation] = useState('');
   const navigate = useNavigate();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    navigate(`/search?q=${encodeURIComponent(searchTerm)}&location=${encodeURIComponent(searchLocation)}`);
+  };
 
   const heroSettings = {
     dots: true,
@@ -191,8 +177,32 @@ const Home = () => {
                 <div className="hero-overlay"></div>
                 <div className="hero-content">
                   <h1>{slide.title}</h1>
+                  
+                  {/* Search Form on Hero */}
+                  <form onSubmit={handleSearch} className="hero-search-form">
+                    <div className="search-container">
+                      <input
+                        type="text"
+                        placeholder="things to do, nail salons, plumbers"
+                        className="search-input"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                      />
+                      <input
+                        type="text"
+                        placeholder="Afton, CA 94309"
+                        className="location-input"
+                        value={searchLocation}
+                        onChange={(e) => setSearchLocation(e.target.value)}
+                      />
+                      <button type="submit" className="search-button">
+                        <i className="fas fa-search"></i>
+                      </button>
+                    </div>
+                  </form>
+                  
                   <Link to="/services" className="hero-cta-button">
-                    <i className="fas fa-search"></i>
+                    <i className="fas fa-spray-can"></i>
                     {slide.cta}
                   </Link>
                 </div>
@@ -203,32 +213,6 @@ const Home = () => {
             </div>
           ))}
         </Slider>
-      </section>
-
-      {/* Featured Services Section */}
-      <section className="featured-services-section">
-        <div className="container">
-          <h2>Featured Services</h2>
-          <div className="services-grid">
-            {featuredServices.map((service) => (
-              <div key={service.id} className="service-card">
-                <div className="service-image-container">
-                  <img src={service.image} alt={service.title} className="service-image" />
-                </div>
-                <div className="service-content">
-                  <h3>{service.title}</h3>
-                  <p className="service-price">Starting from PKR {service.priceStart}</p>
-                  <p className="service-category">{service.category}</p>
-                  <div className="flex gap-2 mt-2">
-                    <Link to={`/service-providers/${service.id}`} className="contact-button flex-1 text-center">Request Inquiry</Link>
-                    <a href={`tel:${service.phone}`} className="contact-button flex-1 text-center">Call Now</a>
-                    <Link to={`/service/${service.id}`} className="contact-button flex-1 text-center">View Profile</Link>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
       </section>
 
       {/* Recent Activity Section */}

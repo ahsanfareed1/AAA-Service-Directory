@@ -7,7 +7,6 @@
   position: relative;
   height: 100vh;
   overflow: hidden;
-  margin-top: 0;
 }
 
 .hero-slide {
@@ -37,7 +36,7 @@
 .hero-content {
   position: absolute;
   top: 50%;
-  left: 10%;
+  left: 5%;
   transform: translateY(-50%);
   z-index: 2;
   color: white;
@@ -45,11 +44,57 @@
 }
 
 .hero-content h1 {
-  font-size: clamp(3rem, 6vw, 5rem);
+  font-size: clamp(2.5rem, 5vw, 4rem);
   font-weight: 700;
-  line-height: 1.1;
+  line-height: 1.2;
   margin-bottom: 2rem;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+/* Hero Search Form */
+.hero-search-form {
+  margin: 2rem 0;
+}
+
+.search-container {
+  display: flex;
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  max-width: 600px;
+}
+
+.search-input,
+.location-input {
+  flex: 1;
+  padding: 1rem;
+  border: none;
+  font-size: 1rem;
+  color: #333;
+}
+
+.search-input {
+  border-right: 1px solid #e6e6e6;
+}
+
+.search-input::placeholder,
+.location-input::placeholder {
+  color: #999;
+}
+
+.search-button {
+  background: #d32323;
+  color: white;
+  border: none;
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: background-color 0.2s;
+}
+
+.search-button:hover {
+  background: #b71c1c;
 }
 
 .hero-cta-button {
@@ -65,6 +110,7 @@
   font-size: 1.1rem;
   transition: all 0.3s ease;
   box-shadow: 0 4px 12px rgba(211, 35, 35, 0.3);
+  margin-top: 1rem;
 }
 
 .hero-cta-button:hover {
@@ -283,19 +329,6 @@
   padding: 4rem 2rem;
 }
 
-.featured-services-section {
-  background: #ffffff;
-  padding: 4rem 2rem;
-}
-
-.featured-services-section h2 {
-  font-size: 2rem;
-  font-weight: 600;
-  color: #1f2937;
-  margin-bottom: 2rem;
-  text-align: center;
-}
-
 .sponsored-services-section h2 {
   font-size: 2rem;
   font-weight: 600;
@@ -472,6 +505,15 @@
     font-size: 2rem;
   }
 
+  .search-container {
+    flex-direction: column;
+  }
+
+  .search-input {
+    border-right: none;
+    border-bottom: 1px solid #e6e6e6;
+  }
+
   .hero-carousel .slick-prev {
     left: 1rem;
   }
@@ -517,8 +559,7 @@
 
   .recent-activity-section,
   .categories-section,
-  .sponsored-services-section,
-  .featured-services-section {
+  .sponsored-services-section {
     padding: 2rem 1rem;
   }
 }

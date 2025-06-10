@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { createContext, useState, useContext, useEffect } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -7,12 +7,10 @@ import Home from './pages/Home';
 import Services from './pages/Services';
 import ServiceProviders from './pages/ServiceProviders';
 import ProviderProfile from './pages/ProviderProfile';
-import ServiceProfile from './pages/ServiceProfile';
 import Contact from './pages/Contact';
 import About from './pages/About';
 import CustomerProfile from './pages/CustomerProfile';
 import Search from './pages/Search';
-import BusinessProfile from './pages/BusinessProfile';
 import './App.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
@@ -68,8 +66,6 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/services" element={<Services />} />
               <Route path="/search" element={<Search />} />
-              <Route path="/business/:businessId" element={<BusinessProfile />} />
-              <Route path="/service/:serviceId" element={<ServiceProfile />} />
               <Route path="/service-providers/:serviceId" element={
                 <ProtectedRoute>
                   <ServiceProviders />
@@ -111,8 +107,6 @@ function App() {
               <Route path="/health-medical" element={<Services />} />
               <Route path="/event-planning" element={<Services />} />
               <Route path="/education" element={<Services />} />
-              {/* Catch all route - redirect to home */}
-              <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </main>
           <Footer />
